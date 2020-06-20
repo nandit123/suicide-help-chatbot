@@ -100,6 +100,11 @@ function greetingMessage(sender_psid){
               },
               {
                 "type": "postback",
+                "title": "Just Fine!",
+                "payload": "justFine",
+              },
+              {
+                "type": "postback",
                 "title": "Sad!",
                 "payload": "sad",
               }
