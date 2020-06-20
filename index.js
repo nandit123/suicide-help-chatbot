@@ -212,7 +212,7 @@ function handlePostback(sender_psid, received_postback) {
             "buttons": [
               {
                 "type": "postback",
-                "title": "Today",
+                "title": "Today!",
                 "payload": "today",
               },
               {
@@ -230,8 +230,60 @@ function handlePostback(sender_psid, received_postback) {
         }
       }
     }
-  } else if (payload === 'today' || '15days'){
+  } else if (payload === 'today' || payload === '15days'){
     response = {"text": "Would you like to share with us the reason behind your sadness?"}
+  } else if (payload === '1month') {
+	response = {
+      "attachment": {
+        "type": "template",
+        "payload": {
+          "template_type": "generic",
+          "elements": [{
+            "title": "Please choose something from the below mentioned options.",
+            "subtitle": "Tap a button to answer.",
+            "buttons": [
+              {
+                "type": "postback",
+                "title": "Consult a trained professional",
+                "payload": "consultProfessional",
+              },
+              {
+                "type": "postback",
+                "title": "Play an interesting game!",
+                "payload": "game",
+              }
+            ],
+          }]
+        }
+      }
+    }
+  } else if (payload === 'consultProfessional') {
+	response = {"text": "Soon we will share you the details but right now please focus on the game."}
+  } else if (payload === 'game') {
+	  response = {
+      "attachment": {
+        "type": "template",
+        "payload": {
+          "template_type": "generic",
+          "elements": [{
+            "title": "Great choice! We will definitely try our best to cheer up your mood. We will give you small daily tasks, which will help to restore confidence within you and at the same time will try to ooze your pain",
+            "subtitle": "Here comes your first daily task.",
+            "buttons": [
+              {
+                "type": "postback",
+                "title": "Go out for a walk in a park for 2 hours at least.",
+                "payload": "parkWalk",
+              },
+              {
+                "type": "postback",
+                "title": "Play an interesting game!",
+                "payload": "game",
+              }
+            ],
+          }]
+        }
+      }
+    }
   }
   // Send the message to acknowledge the postback
   callSendAPI(sender_psid, response);
