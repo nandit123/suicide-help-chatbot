@@ -31,7 +31,7 @@ app.post('/webhook', (req, res) => {
 		
 		// Check if the event is a message or postback and
 		// pass the event to the appropriate handler function
-		if (webhook_event.message=='hi'){
+		if (webhook_event.message.text=='hi'){
 			console.log(webhook_event.message);
 			greetingMessage(sender_psid);
 		}
