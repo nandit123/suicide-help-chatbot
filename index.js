@@ -38,8 +38,8 @@ app.post('/webhook', (req, res) => {
 		//	}
 		//	callSendAPI(sender_psid, response);
 		//}
-		if (webhook_event.message.text=='greetingMessage') {
-			greetingMessage(sender_psid);        
+		if (webhook_event.message.text=='hi') {
+			greetingMessage(sender_psid);
 		} else if (webhook_event.postback) {
 			handlePostback(sender_psid, webhook_event.postback);
 		}
@@ -51,7 +51,7 @@ app.post('/webhook', (req, res) => {
       // Returns a '404 Not Found' if event is not from a page subscription
       res.sendStatus(404);
     }
-  
+
   });
 
 // Adds support for GET requests to our webhook
@@ -100,11 +100,6 @@ function greetingMessage(sender_psid){
               },
               {
                 "type": "postback",
-                "title": "Just Fine!",
-                "payload": "justFine",
-              },
-              {
-                "type": "postback",
                 "title": "Sad!",
                 "payload": "sad",
               }
@@ -143,13 +138,13 @@ function handleMessage(sender_psid, received_message) {
             "buttons": [
               {
                 "type": "postback",
-                "title": "Yes!",
-                "payload": "yes",
+                "title": "Happy!",
+                "payload": "happy",
               },
               {
                 "type": "postback",
-                "title": "No!",
-                "payload": "no",
+                "title": "Sad!",
+                "payload": "sad",
               }
             ],
           }]
@@ -170,10 +165,41 @@ function handlePostback(sender_psid, received_postback) {
   let payload = received_postback.payload;
 
   // Set the response based on the postback payload
-  if (payload === 'yes') {
-    response = { "text": "Thanks!" }
-  } else if (payload === 'no') {
-    response = { "text": "Oops, try sending another image." }
+  if (payload === 'happy') {
+    response = { "text": "Glad to know that! Would you like to share with us the reason?" }
+  } else if (payload === 'sad') {
+    response = {
+      "attachment": {
+        "type": "template",
+        "payload": {
+          "template_type": "generic",
+          "elements": [{
+            "title": "How long have you been sad?",
+            "subtitle": "Tap a button to answer.",
+            "image_url": attachment_url,
+            "buttons": [
+              {
+                "type": "postback",
+                "title": "Today",
+                "payload": "today",
+              },
+              {
+                "type": "postback",
+                "title": "15 Days!",
+                "payload": "15days",
+              },
+              {
+                "type": "postback",
+                "title": "1 Month!",
+                "payload": "1month",
+              }
+            ],
+          }]
+        }
+      }
+    }
+  } else if (payload === 'today' || '15days'){
+    response = {"text": "Would you like to share with us the reason behind your sadness?"}
   }
   // Send the message to acknowledge the postback
   callSendAPI(sender_psid, response);
