@@ -41,6 +41,36 @@ app.post('/webhook', (req, res) => {
 		if (webhook_event.message){
 		if (webhook_event.message.text=='hi') {
 			greetingMessage(sender_psid);
+		}else if (webhook_event.text) {
+		response = {
+		  "attachment": {
+			"type": "template",
+			"payload": {
+			  "template_type": "generic",
+			  "elements": [{
+				"title": "Would like to cheer up your mood?",
+				"subtitle": "Tap a button to answer.",
+				"buttons": [
+				  {
+					"type": "postback",
+					"title": "Sing a song!",
+					"payload": "song",
+				  },
+				  {
+					"type": "postback",
+					"title": "Tell a Joke!",
+					"payload": "joke",
+				  },
+				  {
+					"type": "postback",
+					"title": "Motivational Quote!",
+					"payload": "quote",
+				  }
+				]
+			  }]
+			}
+		  }
+		}
 		}}else if (webhook_event.postback) {
 			handlePostback(sender_psid, webhook_event.postback);
 		}
@@ -177,7 +207,6 @@ function handlePostback(sender_psid, received_postback) {
           "elements": [{
             "title": "How long have you been sad?",
             "subtitle": "Tap a button to answer.",
-            "image_url": attachment_url,
             "buttons": [
               {
                 "type": "postback",
