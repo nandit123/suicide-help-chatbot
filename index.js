@@ -264,20 +264,16 @@ function handlePostback(sender_psid, received_postback) {
       "attachment": {
         "type": "template",
         "payload": {
-          "template_type": "generic",
+          "template_type": "open_graph",
           "elements": [{
             "title": "Great choice! We will definitely try our best to cheer up your mood. We will give you small daily tasks, which will help to restore confidence within you and at the same time will try to ooze your pain",
             "subtitle": "Here comes your first daily task.",
+			"url": "https://www.youtube.com/watch?v=wFEvwxi8AOw",
             "buttons": [
               {
-                "type": "postback",
-                "title": "Go out for a walk in a park for 2 hours at least.",
-                "payload": "parkWalk",
-              },
-              {
-                "type": "postback",
-                "title": "Play an interesting game!",
-                "payload": "game",
+                "type": "web_url",
+                "title": "View more.",
+                "url": "https://www.takingcharge.csh.umn.edu/how-does-nature-impact-our-wellbeing",
               }
             ],
           }]
