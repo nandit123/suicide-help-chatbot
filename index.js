@@ -31,10 +31,6 @@ app.post('/webhook', (req, res) => {
 		
 		// Check if the event is a message or postback and
 		// pass the event to the appropriate handler function
-		if (webhook_event.message.text=='greetingMessage'){
-			console.log(webhook_event.message);
-			greetingMessage(sender_psid);
-		}
 		//if (webhook_event.message.text == 'Happy' || 'Excited'){
 		//	let response;
 		//	response = {
@@ -42,8 +38,8 @@ app.post('/webhook', (req, res) => {
 		//	}
 		//	callSendAPI(sender_psid, response);
 		//}
-		if (webhook_event.message) {
-			handleMessage(sender_psid, webhook_event.message);        
+		if (webhook_event.message.text=='greetingMessage') {
+			greetingMessage(sender_psid);        
 		} else if (webhook_event.postback) {
 			handlePostback(sender_psid, webhook_event.postback);
 		}
