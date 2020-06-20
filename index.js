@@ -31,9 +31,16 @@ app.post('/webhook', (req, res) => {
 		
 		// Check if the event is a message or postback and
 		// pass the event to the appropriate handler function
-		if (webhook_event.message.text=='hi'){
+		if (webhook_event.message.text=='greetingMessage'){
 			console.log(webhook_event.message);
 			greetingMessage(sender_psid);
+		}
+		if (webhook_event.message.text == 'Happy' or 'Excited'){
+			let response;
+			response = {
+				"text": `Great to hear that! Would you like to share with us the reason?`
+			}
+			callSendAPI(sender_psid, response);
 		}
 		if (webhook_event.message) {
 			handleMessage(sender_psid, webhook_event.message);        
@@ -92,6 +99,11 @@ function greetingMessage(sender_psid){
             "buttons": [
               {
                 "type": "postback",
+                "title": "Excited!",
+                "payload": "excited",
+              },
+              {
+                "type": "postback",
                 "title": "Happy!",
                 "payload": "happy",
               },
@@ -99,6 +111,11 @@ function greetingMessage(sender_psid){
                 "type": "postback",
                 "title": "Sad!",
                 "payload": "sad",
+              },
+              {
+                "type": "postback",
+                "title": "Depressed!",
+                "payload": "depressed",
               }
             ],
           }]
