@@ -266,13 +266,13 @@ function handlePostback(sender_psid, received_postback) {
         "payload": {
           "template_type": "open_graph",
           "elements": [{
-            "title": "Great choice! We will definitely try our best to cheer up your mood. We will give you small daily tasks, which will help to restore confidence within you and at the same time will try to ooze your pain",
-            "subtitle": "Here comes your first daily task.",
+            //"title": "Great choice! We will definitely try our best to cheer up your mood. We will give you small daily tasks, which will help to restore confidence within you and at the same time will try to ooze your pain",
+            //"subtitle": "Here comes your first daily task.",
 			"url": "https://www.youtube.com/watch?v=wFEvwxi8AOw",
             "buttons": [
               {
                 "type": "web_url",
-                "title": "View more.",
+                "title": "View more",
                 "url": "https://www.takingcharge.csh.umn.edu/how-does-nature-impact-our-wellbeing",
               }
             ],
