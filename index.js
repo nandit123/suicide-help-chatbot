@@ -35,7 +35,7 @@ app.post('/webhook', (req, res) => {
 			console.log(webhook_event.message);
 			greetingMessage(sender_psid);
 		}
-		if (webhook_event.message.text == 'Happy' or 'Excited'){
+		if (webhook_event.message.text == 'Happy' or webhook_event.message.text =='Excited'){
 			let response;
 			response = {
 				"text": `Great to hear that! Would you like to share with us the reason?`
