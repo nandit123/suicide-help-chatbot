@@ -113,7 +113,7 @@ function greetingMessage(sender_psid){
                 "title": "Depressed!",
                 "payload": "depressed",
               }
-            ],
+            ]
           }]
         }
       }
