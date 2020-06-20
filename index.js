@@ -38,11 +38,12 @@ app.post('/webhook', (req, res) => {
 		//	}
 		//	callSendAPI(sender_psid, response);
 		//}
+		if (webhook_event.message){
 		if (webhook_event.message.text=='hi') {
 			greetingMessage(sender_psid);
 		} else if (webhook_event.postback) {
 			handlePostback(sender_psid, webhook_event.postback);
-		}
+		}}
       });
   
       // Returns a '200 OK' response to all requests
