@@ -41,7 +41,7 @@ app.post('/webhook', (req, res) => {
 		if (webhook_event.message){
 		if (webhook_event.message.text=='hi') {
 			greetingMessage(sender_psid);
-		}else if (webhook_event.text) {
+		}else if (webhook_event.message.text) {
 		let response;
 		response = {
 		  "attachment": {
