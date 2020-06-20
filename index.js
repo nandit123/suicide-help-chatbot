@@ -35,13 +35,13 @@ app.post('/webhook', (req, res) => {
 			console.log(webhook_event.message);
 			greetingMessage(sender_psid);
 		}
-		if (webhook_event.message.text == 'Happy' || 'Excited'){
-			let response;
-			response = {
-				"text": `Great to hear that! Would you like to share with us the reason?`
-			}
-			callSendAPI(sender_psid, response);
-		}
+		//if (webhook_event.message.text == 'Happy' || 'Excited'){
+		//	let response;
+		//	response = {
+		//		"text": `Great to hear that! Would you like to share with us the reason?`
+		//	}
+		//	callSendAPI(sender_psid, response);
+		//}
 		if (webhook_event.message) {
 			handleMessage(sender_psid, webhook_event.message);        
 		} else if (webhook_event.postback) {
