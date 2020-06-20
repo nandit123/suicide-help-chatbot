@@ -31,6 +31,7 @@ app.post('/webhook', (req, res) => {
 		
 		// Check if the event is a message or postback and
 		// pass the event to the appropriate handler function
+		greetingMessage();
 		if (webhook_event.message) {
 			handleMessage(sender_psid, webhook_event.message);        
 		} else if (webhook_event.postback) {
@@ -75,6 +76,24 @@ app.get('/webhook', (req, res) => {
     }
 });
 
+function greetingMessage(){
+	let response;
+	response = {
+		"text": 'Greetings! How are you feeling today?',
+		"buttons": [
+              {
+                "type": "postback",
+                "title": "Happy!",
+                "payload": "happy",
+              },
+              {
+                "type": "postback",
+                "title": "Sad!",
+                "payload": "sad",
+              }
+			]
+	}
+}
 
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
