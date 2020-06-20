@@ -260,26 +260,31 @@ function handlePostback(sender_psid, received_postback) {
   } else if (payload === 'consultProfessional') {
 	response = {"text": "Soon we will share you the details but right now please focus on the game."}
   } else if (payload === 'game') {
-	  response = {
-      "attachment": {
-        "type": "template",
-        "payload": {
-          "template_type": "open_graph",
-          "elements": [{
-            //"title": "Great choice! We will definitely try our best to cheer up your mood. We will give you small daily tasks, which will help to restore confidence within you and at the same time will try to ooze your pain",
-            //"subtitle": "Here comes your first daily task.",
-			"url": "https://www.youtube.com/watch?v=wFEvwxi8AOw",
-            "buttons": [
-              {
-                "type": "web_url",
-                "title": "View more",
-                "url": "https://www.takingcharge.csh.umn.edu/how-does-nature-impact-our-wellbeing",
-              }
-            ],
-          }]
-        }
-      }
-    }
+	response = {
+	  "recipient":{
+		"id":"USER_ID"
+	  },
+	  "message":{
+		"attachment":{
+		  "type":"template",
+		  "payload":{
+			"template_type":"open_graph",
+			"elements":[
+			   {
+				"url":"https://www.youtube.com/watch?v=wFEvwxi8AOw",
+				"buttons":[
+				  {
+					"type":"web_url",
+					"url":"https://www.takingcharge.csh.umn.edu/how-does-nature-impact-our-wellbeing",
+					"title":"View More"
+				  }              
+				]      
+			  }
+			]
+		  }
+		}
+	  }
+	}
   }
   // Send the message to acknowledge the postback
   callSendAPI(sender_psid, response);
