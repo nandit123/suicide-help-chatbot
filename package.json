@@ -1,0 +1,24 @@
+{
+  "name": "suicide-help-chatbot",
+  "version": "1.0.0",
+  "description": "Lifts your sad or depressive mood to happy and delightful",
+  "main": "index.js",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nandit123/suicide-help-chatbot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nandit123/suicide-help-chatbot/issues"
+  },
+  "homepage": "https://github.com/nandit123/suicide-help-chatbot#readme"
+}
