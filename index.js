@@ -163,7 +163,7 @@ function handlePostback(sender_psid, received_postback) {
   
   // Get the payload for the postback
   let payload = received_postback.payload;
-
+  console.log("166", payload)
   // Set the response based on the postback payload
   if (payload === 'happy') {
     response = { "text": "Glad to know that! Would you like to share with us the reason?" }
