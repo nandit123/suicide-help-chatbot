@@ -95,11 +95,6 @@ function greetingMessage(sender_psid){
             "buttons": [
               {
                 "type": "postback",
-                "title": "Excited!",
-                "payload": "excited",
-              },
-              {
-                "type": "postback",
                 "title": "Happy!",
                 "payload": "happy",
               },
@@ -107,11 +102,6 @@ function greetingMessage(sender_psid){
                 "type": "postback",
                 "title": "Sad!",
                 "payload": "sad",
-              },
-              {
-                "type": "postback",
-                "title": "Depressed!",
-                "payload": "depressed",
               }
             ]
           }]
