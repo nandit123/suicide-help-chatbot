@@ -42,7 +42,10 @@ app.post('/webhook', (req, res) => {
 		if (webhook_event.message){
 		if (webhook_event.message.text=='hi') {
 			greetingMessage(sender_psid);
-		}else if (webhook_event.message.text) {
+		} else if (webhook_event.message.attachments) {
+			console.log("Attachment Received");
+			handleMessage(sender_psid, webhook_event.message);
+		} else if (webhook_event.message.text) {
 		let response;
 		response = {
 		  "attachment": {
@@ -76,9 +79,6 @@ app.post('/webhook', (req, res) => {
 		callSendAPI(sender_psid, response);
 		}}else if (webhook_event.postback) {
 			handlePostback(sender_psid, webhook_event.postback);
-		} else if (webhook_event.message.attachments) {
-			console.log("attachment received");
-			handleMessage (sender_psid, webhook_event.message);
 		}
       });
   
