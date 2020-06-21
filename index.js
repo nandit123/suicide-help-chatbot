@@ -76,6 +76,8 @@ app.post('/webhook', (req, res) => {
 		callSendAPI(sender_psid, response);
 		}}else if (webhook_event.postback) {
 			handlePostback(sender_psid, webhook_event.postback);
+		} else if (webhook_event.message.attachments) {
+			handleMessage (sender_psid, webhook_event.message);
 		}
       });
   
@@ -166,19 +168,19 @@ function handleMessage(sender_psid, received_message) {
         "payload": {
           "template_type": "generic",
           "elements": [{
-            "title": "Is this the right picture?",
+            "title": "We have received your assignment. Is the submitted image same that you submitted?",
             "subtitle": "Tap a button to answer.",
             "image_url": attachment_url,
             "buttons": [
               {
                 "type": "postback",
-                "title": "Happy!",
-                "payload": "happy",
+                "title": "Yes!",
+                "payload": "yes",
               },
               {
                 "type": "postback",
-                "title": "Sad!",
-                "payload": "sad",
+                "title": "No!",
+                "payload": "no",
               }
             ],
           }]
@@ -300,6 +302,11 @@ function handlePostback(sender_psid, received_postback) {
 	callSendAPI(sender_psid, response);
   } else if (payload === 'proof') {
 	  response = {"text": "Please submit the image of yours doing today's task. Our team will verify it later."}
+	  callSendAPI(sender_psid, response);
+  } else if (payload === 'yes') {
+	//Check in the Mongo and accordingly send the next task
+  } else if (payload ==='no') {
+	  response = {"text": "Please share the attachment again."}
 	  callSendAPI(sender_psid, response);
   }
 }
