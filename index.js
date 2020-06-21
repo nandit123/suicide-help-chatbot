@@ -13,13 +13,9 @@ app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
 
 //Mongo connection
 const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://admin:goodadmin@cluster0-ctvvi.mongodb.net/<dbname>?retryWrites=true&w=majority";
+const uri = "mongodb+srv://admin:goodadmin@cluster0-ctvvi.mongodb.net/db1?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true });
-client.connect(err => {
-const collection = client.db("test").collection("devices");
-// perform actions on the collection object
-client.close();
-});
+
 
 
 // Creates the endpoint for our webhook 
@@ -41,7 +37,14 @@ app.post('/webhook', (req, res) => {
 		// Get the sender PSID
 		let sender_psid = webhook_event.sender.id;
 		console.log('Sender PSID: ' + sender_psid);
-		
+		client.connect(err => {
+		const collection = client.db("db1").collection("user_data");
+		var query = {user_id: sender_psid};
+		var x = collection.find(query);
+		console.log('asdasdsa', x);
+		// perform actions on the collection object
+		client.close();
+		});
 		// Check if the event is a message or postback and
 		// pass the event to the appropriate handler function
 		//if (webhook_event.message.text == 'Happy' || 'Excited'){
