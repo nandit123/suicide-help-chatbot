@@ -200,10 +200,10 @@ function handlePostback(sender_psid, received_postback) {
   // Set the response based on the postback payload
   if (payload === 'GET_STARTED_PAYLOAD') {
       response = {"text": "Hello"}
-    //   callSendAPI(sender_psid, response).then(() => {
-    //     return callSendAPI(sender_psid, greetingMessage);
-    //   });
-    callSendAPI(sender_psid, response);
+      callSendAPI(sender_psid, response).then(() => {
+        return callSendAPI(sender_psid, greetingMessage);
+      });
+    // callSendAPI(sender_psid, response);
   } else if (payload === 'happy') {
     response = { "text": "Glad to know that! Would you like to share with us the reason?" }
     // Send the message to acknowledge the postback
@@ -316,16 +316,10 @@ function callSendAPI(sender_psid, response) {
   }
 
   // Send the HTTP request to the Messenger Platform
-  request({
-    "uri": "https://graph.facebook.com/v2.6/me/messages",
-    "qs": { "access_token": PAGE_ACCESS_TOKEN },
-    "method": "POST",
-    "json": request_body
-  }, (err, res, body) => {
-    if (!err) {
-      console.log('message sent!')
-    } else {
-      console.error("Unable to send message:" + err);
-    }
-  }); 
+  const qs = 'access_token=' + encodeURIComponent(PAGE_ACCESS_TOKEN); // Here you'll need to add your PAGE TOKEN from Facebook
+      return fetch('https://graph.facebook.com/v2.6/me/messages?' + qs, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(body),
+    });
 }
