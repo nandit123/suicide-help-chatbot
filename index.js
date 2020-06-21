@@ -4,6 +4,7 @@ const PAGE_ACCESS_TOKEN ="EAAKgqfnzF6MBAN1iU92kR1Di1WJWOTeJSPWNmZAQe6uhZAay9792f
 const
   express = require('express'),
   bodyParser = require('body-parser'),
+  fetch = require('node-fetch'),
   app = express().use(bodyParser.json()); // creates express http server
 const request = require('request');
 // Sets server port and logs message on success
