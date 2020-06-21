@@ -202,7 +202,7 @@ function handlePostback(sender_psid, received_postback) {
   if (payload === 'GET_STARTED_PAYLOAD') {
       response = {"text": "Hello"}
       callSendAPI(sender_psid, response).then(() => {
-        return callSendAPI(sender_psid, greetingMessage);
+        greetingMessage(sender_psid);
       });
     // callSendAPI(sender_psid, response);
   } else if (payload === 'happy') {
