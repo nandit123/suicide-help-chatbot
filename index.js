@@ -200,9 +200,10 @@ function handlePostback(sender_psid, received_postback) {
   // Set the response based on the postback payload
   if (payload === 'GET_STARTED_PAYLOAD') {
       response = {"text": "Hello"}
-      callSendAPI(sender_psid, response).then(() => {
-        return callSendAPI(sender_psid, greetingMessage);
-      });
+    //   callSendAPI(sender_psid, response).then(() => {
+    //     return callSendAPI(sender_psid, greetingMessage);
+    //   });
+    callSendAPI(sender_psid, response);
   } else if (payload === 'happy') {
     response = { "text": "Glad to know that! Would you like to share with us the reason?" }
     // Send the message to acknowledge the postback
