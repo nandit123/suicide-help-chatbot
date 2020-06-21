@@ -40,8 +40,11 @@ app.post('/webhook', (req, res) => {
 		client.connect(err => {
 		const collection = client.db("db1").collection("user_data");
 		var query = {user_id: sender_psid};
-		console.log(query);
-		let x = collection.find(query);
+		collection.find(query).toArray(function(err, result) {
+			if (err) throw err;
+			console.log(result);
+			db.close();
+		});
 		console.log(x);
 		// perform actions on the collection object
 		client.close();
