@@ -321,6 +321,6 @@ function callSendAPI(sender_psid, response) {
       return fetch('https://graph.facebook.com/v2.6/me/messages?' + qs, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(body),
+        body: JSON.stringify(request_body),
     });
 }
