@@ -10,6 +10,18 @@ const request = require('request');
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
 
+
+//Mongo connection
+const MongoClient = require('mongodb').MongoClient;
+const uri = "mongodb+srv://admin:goodadmin@cluster0-ctvvi.mongodb.net/<dbname>?retryWrites=true&w=majority";
+const client = new MongoClient(uri, { useNewUrlParser: true });
+client.connect(err => {
+const collection = client.db("test").collection("devices");
+// perform actions on the collection object
+client.close();
+});
+
+
 // Creates the endpoint for our webhook 
 app.post('/webhook', (req, res) => {  
  
