@@ -198,7 +198,7 @@ function handlePostback(sender_psid, received_postback) {
   let payload = received_postback.payload;
   console.log("166", payload)
   // Set the response based on the postback payload
-  if (payload === '<postback_payload>') {
+  if (payload === 'GET_STARTED_PAYLOAD') {
       response = {"text": "Hello"}
       callSendAPI(sender_psid, response).then(() => {
         return callSendAPI(sender_psid, greetingMessage);
