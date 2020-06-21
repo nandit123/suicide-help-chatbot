@@ -198,8 +198,15 @@ function handlePostback(sender_psid, received_postback) {
   let payload = received_postback.payload;
   console.log("166", payload)
   // Set the response based on the postback payload
-  if (payload === 'happy') {
+  if (payload === '<postback_payload>') {
+      response = {"text": "Hello"}
+      callSendAPI(sender_psid, response).then(() => {
+        return callSendAPI(sender_psid, greetingMessage);
+      });
+  } else if (payload === 'happy') {
     response = { "text": "Glad to know that! Would you like to share with us the reason?" }
+    // Send the message to acknowledge the postback
+    callSendAPI(sender_psid, response);
   } else if (payload === 'sad') {
     response = {
       "attachment": {
@@ -230,8 +237,12 @@ function handlePostback(sender_psid, received_postback) {
         }
       }
     }
+    // Send the message to acknowledge the postback
+    callSendAPI(sender_psid, response);
   } else if (payload === 'today' || payload === '15days'){
     response = {"text": "Would you like to share with us the reason behind your sadness?"}
+    // Send the message to acknowledge the postback
+    callSendAPI(sender_psid, response);
   } else if (payload === '1month') {
 	response = {
       "attachment": {
@@ -257,8 +268,12 @@ function handlePostback(sender_psid, received_postback) {
         }
       }
     }
+    // Send the message to acknowledge the postback
+    callSendAPI(sender_psid, response);
   } else if (payload === 'consultProfessional') {
 	response = {"text": "Soon we will share you the details but right now please focus on the game."}
+    // Send the message to acknowledge the postback
+    callSendAPI(sender_psid, response);
   } else if (payload === 'game') {
 	response = {
 	  "recipient":{
