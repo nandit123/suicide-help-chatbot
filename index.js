@@ -44,7 +44,7 @@ app.post('/webhook', (req, res) => {
 			console.log(result);
 			if (result.length < 1){
 				collection.insertOne({ user_id: sender_psid, tasks: 0 }, function(err, res){
-					console.log("1 document inserted");
+					console.log("1 document inserted", res);
 				});
 			}
 		});
