@@ -283,14 +283,23 @@ function handlePostback(sender_psid, received_postback) {
         "payload": {
           "template_type": "generic",
           "elements": [{
-            "title": "TASK 1",
-			"image_url": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.shutterstock.com%2Fsearch%2Fimage&psig=AOvVaw1LtELrRsk3MVcvmv_jgUz-&ust=1592847818691000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCOjUmta6k-oCFQAAAAAdAAAAABAD",
-            "subtitle": "Tap a button to answer.",
+            "title": "Your daily first task is mentioned below",
+			"image_url": "https://image.shutterstock.com/z/stock-photo-bright-spring-view-of-the-cameo-island-picturesque-morning-scene-on-the-port-sostis-zakinthos-1048185397.jpg",
+            "subtitle": "Task 1",
+			"buttons": [
+              {
+                "type": "postback",
+                "title": "Submit proof",
+                "payload": "proof",
+			  }
+            ],
           }]
         }
       }
     }
 	callSendAPI(sender_psid, response);
+  } else if (payload === 'proof') {
+	  response = {"text": "Please submit the image of yours doing today's task. Our team will verify it later."}
   }
 }
 
