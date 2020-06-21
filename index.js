@@ -278,30 +278,24 @@ function handlePostback(sender_psid, received_postback) {
     callSendAPI(sender_psid, response);
   } else if (payload === 'game') {
 	response = {
-	  "recipient":{
-		"id":"USER_ID"
-	  },
-	  "message":{
-		"attachment":{
-		  "type":"template",
-		  "payload":{
-			"template_type":"open_graph",
-			"elements":[
-			   {
-				"url":"https://www.youtube.com/watch?v=wFEvwxi8AOw",
-				"buttons":[
-				  {
-					"type":"web_url",
-					"url":"https://www.takingcharge.csh.umn.edu/how-does-nature-impact-our-wellbeing",
-					"title":"View More"
-				  }              
-				]      
-			  }
-			]
-		  }
-		}
-	  }
-	}
+      "attachment": {
+        "type": "template",
+        "payload": {
+          "template_type": "generic",
+          "elements": [{
+            "title": "TASK 1",
+			"image_url: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.shutterstock.com%2Fsearch%2Fimage&psig=AOvVaw1LtELrRsk3MVcvmv_jgUz-&ust=1592847818691000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCOjUmta6k-oCFQAAAAAdAAAAABAD",
+            "subtitle": "Tap a button to answer.",
+            "default_action": {
+				"type": "web_url",
+				"url": "https://www.youtube.com/watch?v=wFEvwxi8AOw",
+				"messenger_extensions": TRUE,
+				"webview_height_ratio": "TALL"
+			  },
+          }]
+        }
+      }
+    }
   }
 }
 
