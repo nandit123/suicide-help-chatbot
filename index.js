@@ -300,6 +300,7 @@ function handlePostback(sender_psid, received_postback) {
 	callSendAPI(sender_psid, response);
   } else if (payload === 'proof') {
 	  response = {"text": "Please submit the image of yours doing today's task. Our team will verify it later."}
+	  callSendAPI(sender_psid, response);
   }
 }
 
