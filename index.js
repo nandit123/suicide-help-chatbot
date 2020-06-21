@@ -43,12 +43,9 @@ app.post('/webhook', (req, res) => {
 		collection.find(query).toArray(function(err, result) {
 			console.log(result);
 			if (result==[]){
-				collection.insertOne({ user_id: sender_psid, tasks: 0 }, function(err, res)){
+				collection.insertOne({ user_id: sender_psid, tasks: 0 }, function(err, res){
 					console.log("1 document inserted");
-				}
-				collection.update(
-				{ $inc: { tasks: 1 }}
-				)
+				});
 			}
 		});
 		
