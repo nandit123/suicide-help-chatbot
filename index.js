@@ -14,7 +14,7 @@ app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
 //Mongo connection
 const MongoClient = require('mongodb').MongoClient;
 const uri = "mongodb+srv://admin:goodadmin@cluster0-ctvvi.mongodb.net/db1?retryWrites=true&w=majority";
-const client = new MongoClient(uri, { useNewUrlParser: true });
+const client = new MongoClient(uri, { poolSize: 10, useNewUrlParser: true });
 
 
 
