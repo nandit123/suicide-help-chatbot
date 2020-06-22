@@ -43,17 +43,29 @@ app.post('/webhook', (req, res) => {
       } else {
         let collection = client.db("db1").collection("user_data");
         var query = {user_id: sender_psid};
-        collection.find(query).toArray(function(err, result) {
+        collection.find(query).toArray()
+        .then(result => {
           console.log(result);
           if (result.length < 1){
             collection.insertOne({ user_id: sender_psid, tasks: 0 }, function(err, res){
               console.log("1 document inserted", res);
             });
           }
-        });
-        collection.find({user_id: 32432423}).toArray(function(err, result) {
-          console.log("second", result);
-        });
+        })
+        .catch(err => console.error(`Failed to find documents: ${err}`))
+        // (function(err, result) {
+        //   console.log(result);
+        //   if (result.length < 1){
+        //     collection.insertOne({ user_id: sender_psid, tasks: 0 }, function(err, res){
+        //       console.log("1 document inserted", res);
+        //     });
+        //   }
+        // });
+        collection.find({user_id: 32432423}).toArray()
+        .then(items => {
+          console.log('found second: ', items)
+        })
+        .catch(err => console.error(`Failed to find second documents: ${err}`))
       }	
 		
 		// perform actions on the collection object
