@@ -47,11 +47,11 @@ app.post('/webhook', (req, res) => {
         .then(result => {
           console.log('result: ', result, ' and result length: ', result.length);
           if (result.length == 0) {
-            try {
-            collection.insertOne({ user_id: sender_psid, tasks: 0 });
-            } catch(e) {
-              console.log('error in inserting e7897');
-            }
+            collection.insertOne({ user_id: sender_psid, tasks: 0 })
+            .then(result2 => {
+              console.log('insertOne result is: ', result2)
+            })
+            .catch(err => console.error(`Failed to insert documents: ${err}`))
           }
         })
         .catch(err => console.error(`Failed to find documents: ${err}`))
