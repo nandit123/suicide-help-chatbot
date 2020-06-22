@@ -37,21 +37,24 @@ app.post('/webhook', (req, res) => {
 		// Get the sender PSID
 		let sender_psid = webhook_event.sender.id;
 		console.log('Sender PSID: ' + sender_psid);
-		client.connect(err => {
-		const collection = client.db("db1").collection("user_data");
-		var query = {user_id: sender_psid};
-		collection.find(query).toArray(function(err, result) {
-			console.log(result);
-			if (result.length < 1){
-				collection.insertOne({ user_id: sender_psid, tasks: 0 }, function(err, res){
-					console.log("1 document inserted", res);
-				});
-			}
-		});
-		
-		collection.find(query).toArray(function(err, result) {
-			console.log("second", result);
-		});
+		client.connect((err, client) => {
+      if (err) {
+        console.log('mongodb client Failed to connect')
+      } else {
+        let collection = client.db("db1").collection("user_data");
+        var query = {user_id: sender_psid};
+        collection.find(query).toArray(function(err, result) {
+          console.log(result);
+          if (result.length < 1){
+            collection.insertOne({ user_id: sender_psid, tasks: 0 }, function(err, res){
+              console.log("1 document inserted", res);
+            });
+          }
+        });
+        collection.find(query).toArray(function(err, result) {
+          console.log("second", result);
+        });
+      }	
 		
 		// perform actions on the collection object
 		client.close();
