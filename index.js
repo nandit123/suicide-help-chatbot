@@ -51,7 +51,7 @@ app.post('/webhook', (req, res) => {
             });
           }
         });
-        collection.find(query).toArray(function(err, result) {
+        collection.find({user_id: 32432423}).toArray(function(err, result) {
           console.log("second", result);
         });
       }	
