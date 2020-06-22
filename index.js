@@ -47,11 +47,14 @@ app.post('/webhook', (req, res) => {
         .then(result => {
           console.log('result: ', result, ' and result length: ', result.length);
           if (result.length == 0) {
-            collection.insertOne({ user_id: sender_psid, tasks: 0 })
-            .then(result2 => {
-              console.log('insertOne result is: ', result2)
-            })
-            .catch(err => console.error(`Failed to insert documents: ${err}`))
+            const client2 = new MongoClient(uri, { useNewUrlParser: true });
+            client2.connect((err, client) => {
+              if (err) console.log('failed to connect');
+              else {
+                let collection2 = client.db("db1").collection("user_data");
+                collection2.insertOne({ user_id: sender_psid, tasks: 0 })
+              }
+            });
           }
         })
         .catch(err => console.error(`Failed to find documents: ${err}`))
