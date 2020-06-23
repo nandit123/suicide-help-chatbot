@@ -30,8 +30,7 @@ app.post('/webhook', (req, res) => {
         // Gets the message. entry.messaging is an array, but 
         // will only ever contain one message, so we get index 0
         let webhook_event = entry.messaging[0];
-        console.log(webhook_event);
-		
+
         // Get the sender PSID
         let sender_psid = webhook_event.sender.id;
         console.log('Sender PSID: ' + sender_psid);
@@ -45,7 +44,7 @@ app.post('/webhook', (req, res) => {
             var query = {user_id: sender_psid};
             collection.find(query).toArray()
             .then(result => {
-              console.log('result: ', result, ' and result length: ', result.length);
+              console.log('result: ', result);
               if (result.length == 0) {
                 const client2 = new MongoClient(uri, { useNewUrlParser: true });
                 client2.connect((err, client) => {
@@ -58,12 +57,6 @@ app.post('/webhook', (req, res) => {
               }
             })
             .catch(err => console.error(`Failed to find documents: ${err}`))
-
-            collection.find({user_id: 32432423}).toArray()
-            .then(items => {
-              console.log('found second: ', items)
-            })
-            .catch(err => console.error(`Failed to find second documents: ${err}`))
           }	
         
           // perform actions on the collection object
@@ -77,6 +70,7 @@ app.post('/webhook', (req, res) => {
             console.log("Attachment Received");
             handleMessage(sender_psid, webhook_event.message);
           } else if (webhook_event.message.text) {
+            console.log('178766 else if branch')
             let response;
             response = {
               "message": {
