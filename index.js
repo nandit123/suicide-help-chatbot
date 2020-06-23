@@ -379,7 +379,20 @@ function handlePostback(sender_psid, received_postback) {
 	  response = {"text": "Please share the attachment again."}
 	  callSendAPI(sender_psid, response);
   } else if (payload === 'view_all') {
-		  response = {
+	let t = 0; //fetch t from tasks completed by the user_id (call from mongodb)
+	const client = new MongoClient(uri, { useNewUrlParser: true });
+	client.connect((err, client) => {
+          if (err) {
+            console.log('mongodb client Failed to connect')
+          } else {
+            let collection = client.db("db1").collection("user_data");
+            var query = {user_id: sender_psid};
+            collection.find(query).toArray()
+            .then(result => {
+              console.log('result1: ', result[0]['tasks']);
+			  t = result[0]['tasks'];
+			  console.log('Tasks:',t);
+			  response = {
 			  "attachment": {
 				"type": "template",
 				"payload": {
@@ -423,22 +436,19 @@ function handlePostback(sender_psid, received_postback) {
                 }
               ]
 			}
+			for(var i=0;i<t;i++){
+				response['attachment']['payload']['elements'][i]['title'] = '(Completed) ', response['attachment']['payload']['elements'][i]['title']
+			}
+			console.log(response)
 	  callSendAPI(sender_psid, response);
-	  response = {
-              "quick_replies": [
-                {
-                  "content_type": "text",
-                  "title": "Go to Tasks",
-                  "payload": "tasks_start",
-                },
-                {
-                  "content_type": "text",
-                  "title": "Not Now",
-                  "payload": "tasks_later",
-                }
-              ]
-            }
-		callSendAPI(sender_psid, response);
+	  })
+            .catch(err => console.error(`Failed to find documents: ${err}`))
+          }	
+        
+          // perform actions on the collection object
+          client.close();
+        });
+		
 	  
   }
 }
