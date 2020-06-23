@@ -14,6 +14,7 @@ app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
 const MongoClient = require('mongodb').MongoClient;
 const uri = "mongodb+srv://admin:goodadmin@cluster0-ctvvi.mongodb.net/db1?retryWrites=true&w=majority";
 
+let tasks = [];
 
 // Creates the endpoint for our webhook 
 app.post('/webhook', (req, res) => {  
@@ -299,9 +300,9 @@ function handlePostback(sender_psid, received_postback) {
         "payload": {
           "template_type": "generic",
           "elements": [{
-            "title": "Your daily first task is mentioned below",
+            "title": "Task 1: Go out for run for 1 hour",
 			      "image_url": "https://image.shutterstock.com/z/stock-photo-bright-spring-view-of-the-cameo-island-picturesque-morning-scene-on-the-port-sostis-zakinthos-1048185397.jpg",
-            "subtitle": "Task 1",
+            "subtitle": "Go out for run for 1 hour. Then send a screenshot of where you run for proof.",
             "buttons": [
               {
                 "type": "postback",
