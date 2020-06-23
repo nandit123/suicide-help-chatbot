@@ -14,7 +14,11 @@ app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
 const MongoClient = require('mongodb').MongoClient;
 const uri = "mongodb+srv://admin:goodadmin@cluster0-ctvvi.mongodb.net/db1?retryWrites=true&w=majority";
 
-let tasks = [];
+let tasks = [
+
+  ["Task 1: Go out for run for 1 hour", "https://image.shutterstock.com/z/stock-photo-bright-spring-view-of-the-cameo-island-picturesque-morning-scene-on-the-port-sostis-zakinthos-1048185397.jpg", "Go out for run for 1 hour. Then send a screenshot of where you run for proof."]
+
+];
 
 // Creates the endpoint for our webhook 
 app.post('/webhook', (req, res) => {  
@@ -294,15 +298,16 @@ function handlePostback(sender_psid, received_postback) {
     // Send the message to acknowledge the postback
     callSendAPI(sender_psid, response);
   } else if (payload === 'tasks_start') {
+    let t = 0;
 	  response = {
       "attachment": {
         "type": "template",
         "payload": {
           "template_type": "generic",
           "elements": [{
-            "title": "Task 1: Go out for run for 1 hour",
-			      "image_url": "https://image.shutterstock.com/z/stock-photo-bright-spring-view-of-the-cameo-island-picturesque-morning-scene-on-the-port-sostis-zakinthos-1048185397.jpg",
-            "subtitle": "Go out for run for 1 hour. Then send a screenshot of where you run for proof.",
+            "title": tasks[t][0],
+			      "image_url": tasks[t][1],
+            "subtitle": tasks[t][2],
             "buttons": [
               {
                 "type": "postback",
