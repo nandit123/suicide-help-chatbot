@@ -308,8 +308,8 @@ function handlePostback(sender_psid, received_postback) {
     callSendAPI(sender_psid, response);
   } else if (payload === 'tasks_start') {
     let t = 0; //fetch t from tasks completed by the user_id (call from mongodb)
-	const client4 = new MongoClient(uri, { useNewUrlParser: true });
 	var query = {user_id: sender_psid};
+	const client = new MongoClient(uri, { useNewUrlParser: true });
 	let collection = client.db("db1").collection("user_data");
 	collection.find(query).toArray().then(result => {
 		  console.log('result1: ', result.tasks);
