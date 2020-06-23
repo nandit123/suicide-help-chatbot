@@ -376,7 +376,6 @@ function handlePostback(sender_psid, received_postback) {
 			  response = {
 			  "attachment": {
 				"type": "template",
-				"text": "Glad you completed the task! Please find below your next task.",
 				"payload": {
 				  "template_type": "generic",
 				  "elements": [{
