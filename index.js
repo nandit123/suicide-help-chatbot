@@ -466,6 +466,27 @@ function handlePostback(sender_psid, received_postback) {
 			  }
 			}
 	  callSendAPI(sender_psid, response);
+	  response = {
+              "text": "We have some tasks that can help cheer you up.",
+              "quick_replies": [
+                {
+                  "content_type": "text",
+                  "title": "Let's Start",
+                  "payload": "tasks_start",
+                },
+                {
+                  "content_type": "text",
+                  "title": "Not Now",
+                  "payload": "tasks_later",
+                },
+				{
+                  "content_type": "text",
+                  "title": "View All",
+                  "payload": "view_all",
+                }
+              ]
+            }
+		callSendAPI(sender_psid, response);
 	  
   }
 }
