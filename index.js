@@ -307,7 +307,7 @@ function handlePostback(sender_psid, received_postback) {
     // Send the message to acknowledge the postback
     callSendAPI(sender_psid, response);
   } else if (payload === 'tasks_start') {
-    let global.t = 0; //fetch t from tasks completed by the user_id (call from mongodb)
+    let t = 0; //fetch t from tasks completed by the user_id (call from mongodb)
 	const client = new MongoClient(uri, { useNewUrlParser: true });
 	client.connect((err, client) => {
           if (err) {
@@ -319,6 +319,28 @@ function handlePostback(sender_psid, received_postback) {
             .then(result => {
               console.log('result1: ', result[0]['tasks']);
 			  t = result[0]['tasks'];
+			  console.log('Tasks:',t);
+			  response = {
+			  "attachment": {
+				"type": "template",
+				"payload": {
+				  "template_type": "generic",
+				  "elements": [{
+					"title": tasks[t][0],
+						  "image_url": tasks[t][1],
+					"subtitle": tasks[t][2],
+					"buttons": [
+					  {
+						"type": "postback",
+						"title": "Submit proof",
+						"payload": "proof",
+					  }
+					],
+				  }]
+				}
+			  }
+			}
+			callSendAPI(sender_psid, response);
             })
             .catch(err => console.error(`Failed to find documents: ${err}`))
           }	
@@ -326,28 +348,7 @@ function handlePostback(sender_psid, received_postback) {
           // perform actions on the collection object
           client.close();
         });
-	console.log('Tasks:',t);
-	  response = {
-      "attachment": {
-        "type": "template",
-        "payload": {
-          "template_type": "generic",
-          "elements": [{
-            "title": tasks[t][0],
-			      "image_url": tasks[t][1],
-            "subtitle": tasks[t][2],
-            "buttons": [
-              {
-                "type": "postback",
-                "title": "Submit proof",
-                "payload": "proof",
-              }
-            ],
-          }]
-        }
-      }
-    }
-  	callSendAPI(sender_psid, response);
+	
   } else if (payload === 'tasks_later') {
     response = {
       "text": "Ok, come back later"
