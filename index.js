@@ -379,21 +379,24 @@ function handlePostback(sender_psid, received_postback) {
 	  response = {"text": "Please share the attachment again."}
 	  callSendAPI(sender_psid, response);
   } else if (payload === 'view_all') {
-	  for (var t=0;t<5;t++){
 		  response = {
 			  "attachment": {
 				"type": "template",
 				"payload": {
 				  "template_type": "generic",
 				  "elements": [{
-					"title": tasks[t][0],
-						  "image_url": tasks[t][1],
-					"subtitle": tasks[t][2],
+					"title": "Task 1: Go out for run for 1 hour",
+						  "image_url": "https://images.unsplash.com/photo-1528543606781-2f6e6857f318?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=701&q=80",
+					"subtitle": "Go out for run for 1 hour. Then send a photograph of where you run for proof.",
+				  },
+				  "title": "Task 2: Feed stray animals",
+						  "image_url": "https://images.unsplash.com/photo-1500384066616-8a8d547abfc9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80",
+					"subtitle": "Go out and feed a stray animal or a bird. Then send a picture as a proof.",
 				  }]
+				  
 				}
 			  }
 			}
-	  }
 	  callSendAPI(sender_psid, response);
 	  
   }
