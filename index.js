@@ -87,35 +87,6 @@ app.post('/webhook', (req, res) => {
                 }
               ]
             }
-            // response = {
-            //   "attachment": {
-            //   "type": "template",
-            //   "payload": {
-            //     "template_type": "generic",
-            //     "elements": [{
-            //     "title": "Would like to cheer up your mood?",
-            //     "subtitle": "Tap a button to answer.",
-            //     "buttons": [
-            //       {
-            //       "type": "postback",
-            //       "title": "Sing a song!",
-            //       "payload": "song",
-            //       },
-            //       {
-            //       "type": "postback",
-            //       "title": "Tell a Joke!",
-            //       "payload": "joke",
-            //       },
-            //       {
-            //       "type": "postback",
-            //       "title": "Motivational Quote!",
-            //       "payload": "quote",
-            //       }
-            //     ]
-            //     }]
-            //   }
-            //   }
-            // }
             callSendAPI(sender_psid, response);
         }} else if (webhook_event.postback) {
           handlePostback(sender_psid, webhook_event.postback);
@@ -305,8 +276,8 @@ function handlePostback(sender_psid, received_postback) {
               },
               {
                 "type": "postback",
-                "title": "Play an interesting game!",
-                "payload": "game",
+                "title": "Tasks to cheer up",
+                "payload": "tasks_start",
               }
             ],
           }]
@@ -316,10 +287,10 @@ function handlePostback(sender_psid, received_postback) {
     // Send the message to acknowledge the postback
     callSendAPI(sender_psid, response);
   } else if (payload === 'consultProfessional') {
-	response = {"text": "Soon we will share you the details but right now please focus on the game."}
+	response = {"text": "Soon we will share you the details but right now please focus on the tasks."}
     // Send the message to acknowledge the postback
     callSendAPI(sender_psid, response);
-  } else if (payload === 'game') {
+  } else if (payload === 'tasks_start') {
 	response = {
       "attachment": {
         "type": "template",
