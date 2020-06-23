@@ -388,77 +388,22 @@ function handlePostback(sender_psid, received_postback) {
 					"title": "Task 1: Go out for run for 1 hour",
 						  "image_url": "https://images.unsplash.com/photo-1528543606781-2f6e6857f318?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=701&q=80",
 					"subtitle": "Go out for run for 1 hour. Then send a photograph of where you run for proof.",
-					"buttons": [
-					  {
-						"type": "postback",
-						"title": "Start the tasks",
-						"payload": "tasks_start",
-					  },{
-						"type": "postback",
-						"title": "Not now",
-						"payload": "tasks_later",
-					  }
-					],
 				  },
 				   {"title": "Task 2: Feed stray animals",
 					"image_url": "https://images.unsplash.com/photo-1500384066616-8a8d547abfc9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80",
 					"subtitle": "Go out and feed a stray animal or a bird. Then send a picture as a proof.",
-					"buttons": [
-					  {
-						"type": "postback",
-						"title": "Start the tasks",
-						"payload": "tasks_start",
-					  },{
-						"type": "postback",
-						"title": "Not now",
-						"payload": "tasks_later",
-					  }
-					],
 				  },
 				   {"title": "Task 3: Help an underprivileged",
 					"image_url": "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80",
 					"subtitle": "Go out and help a person in need. Then send a photograph as a proof.",
-					"buttons": [
-					  {
-						"type": "postback",
-						"title": "Start the tasks",
-						"payload": "tasks_start",
-					  },{
-						"type": "postback",
-						"title": "Not now",
-						"payload": "tasks_later",
-					  }
-					],
 				  },
 				   {"title": "Task 4: Social Media Detox",
 					"image_url": "https://images.unsplash.com/photo-1562577309-4932fdd64cd1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=667&q=80",
 					"subtitle": "Delete/Disable/Logout from all of your social media apps for a day. Then send a screenshot of the menu for proof.",
-					"buttons": [
-					  {
-						"type": "postback",
-						"title": "Start the tasks",
-						"payload": "tasks_start",
-					  },{
-						"type": "postback",
-						"title": "Not now",
-						"payload": "tasks_later",
-					  }
-					],
 				  },
 				   {"title": "Task 5: Phone a friend",
 					"image_url": "https://images.unsplash.com/photo-1522010405997-1b0d70605f78?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80",
 					"subtitle": "Call 3 old friends of yours whom you have not been in touch from a long time. Then send a screenshot of your call as a proof.",
-					"buttons": [
-					  {
-						"type": "postback",
-						"title": "Start the tasks",
-						"payload": "tasks_start",
-					  },{
-						"type": "postback",
-						"title": "Not now",
-						"payload": "tasks_later",
-					  }
-					],
 				  },
 				  ]
 				  
