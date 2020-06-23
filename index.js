@@ -374,6 +374,7 @@ function handlePostback(sender_psid, received_postback) {
 			  t = result[0]['tasks'];
 			  console.log('Tasks:',t);
 			  response = {
+			  "text": "Glad you completed the task! Please find below your next task.",
 			  "attachment": {
 				"type": "template",
 				"payload": {
