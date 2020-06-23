@@ -86,7 +86,7 @@ app.post('/webhook', (req, res) => {
                 {
                   "content_type": "text",
                   "title": "Not Now",
-                  "payload": "tasks_laters",
+                  "payload": "tasks_later",
                 }
               ]
             }
@@ -294,7 +294,7 @@ function handlePostback(sender_psid, received_postback) {
     // Send the message to acknowledge the postback
     callSendAPI(sender_psid, response);
   } else if (payload === 'tasks_start') {
-	response = {
+	  response = {
       "attachment": {
         "type": "template",
         "payload": {
@@ -314,7 +314,13 @@ function handlePostback(sender_psid, received_postback) {
         }
       }
     }
-	callSendAPI(sender_psid, response);
+  	callSendAPI(sender_psid, response);
+  } else if (payload === 'tasks_later') {
+    response = {
+      "text": "Ok, come back later"
+    }  
+    callSendAPI(sender_psid, response);    
+
   } else if (payload === 'proof') {
 	  response = {"text": "Please submit the image of yours doing today's task. Our team will verify it later."}
 	  callSendAPI(sender_psid, response);
