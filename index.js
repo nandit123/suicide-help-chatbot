@@ -298,7 +298,7 @@ function handlePostback(sender_psid, received_postback) {
     // Send the message to acknowledge the postback
     callSendAPI(sender_psid, response);
   } else if (payload === 'tasks_start') {
-    let t = 0;
+    let t = 0; //fetch t from tasks completed by the user_id (call from mongodb)
 	  response = {
       "attachment": {
         "type": "template",
