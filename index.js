@@ -308,6 +308,15 @@ function handlePostback(sender_psid, received_postback) {
     callSendAPI(sender_psid, response);
   } else if (payload === 'tasks_start') {
     let t = 0; //fetch t from tasks completed by the user_id (call from mongodb)
+	const client4 = new MongoClient(uri, { useNewUrlParser: true });
+	var query = {user_id: sender_psid};
+		collection.find(query).toArray()
+		.then(result => {
+		  console.log('result1: ', result.tasks);
+		  console.log('result2: ', result[0]['tasks']);
+ 		  console.log('result3: ', result['tasks']);
+		  t = result[0]['tasks'];
+		});
 	  response = {
       "attachment": {
         "type": "template",
@@ -353,12 +362,7 @@ function handlePostback(sender_psid, received_postback) {
           // perform actions on the collection object
           client3.close();
         });
-	  const client4 = new MongoClient(uri, { useNewUrlParser: true });
-	  var query = {user_id: sender_psid};
-            collection.find(query).toArray()
-            .then(result => {
-              console.log('result: ', result);
-            })
+
 	//Check in the Mongo and accordingly send the next task
   } else if (payload ==='no') {
 	  response = {"text": "Please share the attachment again."}
