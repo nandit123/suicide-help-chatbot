@@ -377,6 +377,24 @@ function handlePostback(sender_psid, received_postback) {
   } else if (payload ==='no') {
 	  response = {"text": "Please share the attachment again."}
 	  callSendAPI(sender_psid, response);
+  } else if (payload === 'view_all') {
+	  for (t=0;t<5;i++){
+		  response = {
+			  "attachment": {
+				"type": "template",
+				"payload": {
+				  "template_type": "generic",
+				  "elements": [{
+					"title": tasks[t][0],
+						  "image_url": tasks[t][1],
+					"subtitle": tasks[t][2],
+				  }]
+				}
+			  }
+			}
+	  }
+	  callSendAPI(sender_psid, response);
+	  
   }
 }
 
