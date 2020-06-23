@@ -308,15 +308,23 @@ function handlePostback(sender_psid, received_postback) {
     callSendAPI(sender_psid, response);
   } else if (payload === 'tasks_start') {
     let t = 0; //fetch t from tasks completed by the user_id (call from mongodb)
-	var query = {user_id: sender_psid};
 	const client = new MongoClient(uri, { useNewUrlParser: true });
-	let collection = client.db("db1").collection("user_data");
-	collection.find(query).toArray().then(result => {
-		  console.log('result1: ', result.tasks);
-		  console.log('result2: ', result[0]['tasks']);
- 		  console.log('result3: ', result['tasks']);
-		  t = result[0]['tasks'];
-		});
+	client.connect((err, client) => {
+          if (err) {
+            console.log('mongodb client Failed to connect')
+          } else {
+            let collection = client.db("db1").collection("user_data");
+            var query = {user_id: sender_psid};
+            collection.find(query).toArray()
+            .then(result => {
+              console.log('result1: ', result[0]['tasks']);
+            })
+            .catch(err => console.error(`Failed to find documents: ${err}`))
+          }	
+        
+          // perform actions on the collection object
+          client.close();
+        });
 	  response = {
       "attachment": {
         "type": "template",
