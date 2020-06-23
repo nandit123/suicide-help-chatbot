@@ -79,34 +79,51 @@ app.post('/webhook', (req, res) => {
           } else if (webhook_event.message.text) {
             let response;
             response = {
-              "attachment": {
-              "type": "template",
-              "payload": {
-                "template_type": "generic",
-                "elements": [{
-                "title": "Would like to cheer up your mood?",
-                "subtitle": "Tap a button to answer.",
-                "buttons": [
+              "message": {
+                "text": "We have some tasks that can help cheer you up.",
+                "quick_replies": [
                   {
-                  "type": "postback",
-                  "title": "Sing a song!",
-                  "payload": "song",
+                    "content_type": "text",
+                    "title": "Let's Start",
+                    "payload": "tasks_start",
                   },
                   {
-                  "type": "postback",
-                  "title": "Tell a Joke!",
-                  "payload": "joke",
-                  },
-                  {
-                  "type": "postback",
-                  "title": "Motivational Quote!",
-                  "payload": "quote",
+                    "content_type": "text",
+                    "title": "Not Now",
+                    "payload": "tasks_laters",
                   }
                 ]
-                }]
-              }
               }
             }
+            // response = {
+            //   "attachment": {
+            //   "type": "template",
+            //   "payload": {
+            //     "template_type": "generic",
+            //     "elements": [{
+            //     "title": "Would like to cheer up your mood?",
+            //     "subtitle": "Tap a button to answer.",
+            //     "buttons": [
+            //       {
+            //       "type": "postback",
+            //       "title": "Sing a song!",
+            //       "payload": "song",
+            //       },
+            //       {
+            //       "type": "postback",
+            //       "title": "Tell a Joke!",
+            //       "payload": "joke",
+            //       },
+            //       {
+            //       "type": "postback",
+            //       "title": "Motivational Quote!",
+            //       "payload": "quote",
+            //       }
+            //     ]
+            //     }]
+            //   }
+            //   }
+            // }
             callSendAPI(sender_psid, response);
         }} else if (webhook_event.postback) {
           handlePostback(sender_psid, webhook_event.postback);
