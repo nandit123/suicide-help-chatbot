@@ -379,7 +379,7 @@ function handlePostback(sender_psid, received_postback) {
 	  response = {"text": "Please share the attachment again."}
 	  callSendAPI(sender_psid, response);
   } else if (payload === 'view_all') {
-	  for (var t=0;t<5;i++){
+	  for (var t=0;t<5;t++){
 		  response = {
 			  "attachment": {
 				"type": "template",
