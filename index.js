@@ -314,9 +314,9 @@ function handlePostback(sender_psid, received_postback) {
         "payload": {
           "template_type": "generic",
           "elements": [{
-            "title": tasks[t][0],
-			      "image_url": tasks[t][1],
-            "subtitle": tasks[t][2],
+            "title": tasks[t/8][0],
+			      "image_url": tasks[t/8][1],
+            "subtitle": tasks[t/8][2],
             "buttons": [
               {
                 "type": "postback",
