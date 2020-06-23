@@ -10,7 +10,6 @@ const
   // Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
 
-
 //Mongo connection
 const MongoClient = require('mongodb').MongoClient;
 const uri = "mongodb+srv://admin:goodadmin@cluster0-ctvvi.mongodb.net/db1?retryWrites=true&w=majority";
@@ -301,14 +300,14 @@ function handlePostback(sender_psid, received_postback) {
           "template_type": "generic",
           "elements": [{
             "title": "Your daily first task is mentioned below",
-			"image_url": "https://image.shutterstock.com/z/stock-photo-bright-spring-view-of-the-cameo-island-picturesque-morning-scene-on-the-port-sostis-zakinthos-1048185397.jpg",
+			      "image_url": "https://image.shutterstock.com/z/stock-photo-bright-spring-view-of-the-cameo-island-picturesque-morning-scene-on-the-port-sostis-zakinthos-1048185397.jpg",
             "subtitle": "Task 1",
-			"buttons": [
+            "buttons": [
               {
                 "type": "postback",
                 "title": "Submit proof",
                 "payload": "proof",
-			  }
+              }
             ],
           }]
         }
@@ -331,7 +330,6 @@ function handlePostback(sender_psid, received_postback) {
 	  callSendAPI(sender_psid, response);
   }
 }
-
 
 // Sends response messages via the Send API
 function callSendAPI(sender_psid, response) {
