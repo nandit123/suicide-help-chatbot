@@ -69,8 +69,11 @@ app.post('/webhook', (req, res) => {
           } else if (webhook_event.message.attachments) {
             console.log("Attachment Received");
             handleMessage(sender_psid, webhook_event.message);
+          } else if (webhook_event.message.quick_reply) {
+            // to handle postback of quick reply
+            handlePostback(sender_psid, webhook_event.message.quick_reply)
           } else if (webhook_event.message.text) {
-            console.log('178766 else if branch')
+            console.log('178766 else if branch: webhook_event.message.text: ', webhook_event.message.text);
             let response;
             response = {
               "text": "We have some tasks that can help cheer you up.",
