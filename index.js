@@ -437,7 +437,7 @@ function handlePostback(sender_psid, received_postback) {
               ]
 			}
 			for(var i=0;i<t;i++){
-				response['attachment']['payload']['elements'][i]['title'] = '(Completed) ', response['attachment']['payload']['elements'][i]['title']
+				response['attachment']['payload']['elements'][i]['title'] = '(Completed) '.concat(response['attachment']['payload']['elements'][i]['title'])
 			}
 			console.log(response)
 	  callSendAPI(sender_psid, response);
