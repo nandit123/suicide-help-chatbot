@@ -318,6 +318,7 @@ function handlePostback(sender_psid, received_postback) {
             collection.find(query).toArray()
             .then(result => {
               console.log('result1: ', result[0]['tasks']);
+			  t = result[0]['tasks'];
             })
             .catch(err => console.error(`Failed to find documents: ${err}`))
           }	
