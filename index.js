@@ -34,98 +34,83 @@ app.post('/webhook', (req, res) => {
         let webhook_event = entry.messaging[0];
         console.log(webhook_event);
 		
-		// Get the sender PSID
-		let sender_psid = webhook_event.sender.id;
-		console.log('Sender PSID: ' + sender_psid);
-		client.connect((err, client) => {
-      if (err) {
-        console.log('mongodb client Failed to connect')
-      } else {
-        let collection = client.db("db1").collection("user_data");
-        var query = {user_id: sender_psid};
-        collection.find(query).toArray()
-        .then(result => {
-          console.log('result: ', result, ' and result length: ', result.length);
-          if (result.length == 0) {
-            const client2 = new MongoClient(uri, { useNewUrlParser: true });
-            client2.connect((err, client) => {
-              if (err) console.log('failed to connect');
-              else {
-                let collection2 = client.db("db1").collection("user_data");
-                collection2.insertOne({ user_id: sender_psid, tasks: 0 })
+        // Get the sender PSID
+        let sender_psid = webhook_event.sender.id;
+        console.log('Sender PSID: ' + sender_psid);
+        client.connect((err, client) => {
+          if (err) {
+            console.log('mongodb client Failed to connect')
+          } else {
+            let collection = client.db("db1").collection("user_data");
+            var query = {user_id: sender_psid};
+            collection.find(query).toArray()
+            .then(result => {
+              console.log('result: ', result, ' and result length: ', result.length);
+              if (result.length == 0) {
+                const client2 = new MongoClient(uri, { useNewUrlParser: true });
+                client2.connect((err, client) => {
+                  if (err) console.log('failed to connect');
+                  else {
+                    let collection2 = client.db("db1").collection("user_data");
+                    collection2.insertOne({ user_id: sender_psid, tasks: 0 })
+                  }
+                });
               }
-            });
-          }
-        })
-        .catch(err => console.error(`Failed to find documents: ${err}`))
-        // (function(err, result) {
-        //   console.log(result);
-        //   if (result.length < 1){
-        //     collection.insertOne({ user_id: sender_psid, tasks: 0 }, function(err, res){
-        //       console.log("1 document inserted", res);
-        //     });
-        //   }
-        // });
-        collection.find({user_id: 32432423}).toArray()
-        .then(items => {
-          console.log('found second: ', items)
-        })
-        .catch(err => console.error(`Failed to find second documents: ${err}`))
-      }	
-		
-		// perform actions on the collection object
-		client.close();
-		});
-		// Check if the event is a message or postback and
-		// pass the event to the appropriate handler function
-		//if (webhook_event.message.text == 'Happy' || 'Excited'){
-		//	let response;
-		//	response = {
-		//		"text": `Great to hear that! Would you like to share with us the reason?`
-		//	}
-		//	callSendAPI(sender_psid, response);
-		//}
-		if (webhook_event.message){
-		if (webhook_event.message.text=='hi') {
-			greetingMessage(sender_psid);
-		} else if (webhook_event.message.attachments) {
-			console.log("Attachment Received");
-			handleMessage(sender_psid, webhook_event.message);
-		} else if (webhook_event.message.text) {
-		let response;
-		response = {
-		  "attachment": {
-			"type": "template",
-			"payload": {
-			  "template_type": "generic",
-			  "elements": [{
-				"title": "Would like to cheer up your mood?",
-				"subtitle": "Tap a button to answer.",
-				"buttons": [
-				  {
-					"type": "postback",
-					"title": "Sing a song!",
-					"payload": "song",
-				  },
-				  {
-					"type": "postback",
-					"title": "Tell a Joke!",
-					"payload": "joke",
-				  },
-				  {
-					"type": "postback",
-					"title": "Motivational Quote!",
-					"payload": "quote",
-				  }
-				]
-			  }]
-			}
-		  }
-		}
-		callSendAPI(sender_psid, response);
-		}}else if (webhook_event.postback) {
-			handlePostback(sender_psid, webhook_event.postback);
-		}
+            })
+            .catch(err => console.error(`Failed to find documents: ${err}`))
+
+            collection.find({user_id: 32432423}).toArray()
+            .then(items => {
+              console.log('found second: ', items)
+            })
+            .catch(err => console.error(`Failed to find second documents: ${err}`))
+          }	
+        
+          // perform actions on the collection object
+          client.close();
+        });
+        
+        if (webhook_event.message) {
+          if (webhook_event.message.text=='hi') {
+            greetingMessage(sender_psid);
+          } else if (webhook_event.message.attachments) {
+            console.log("Attachment Received");
+            handleMessage(sender_psid, webhook_event.message);
+          } else if (webhook_event.message.text) {
+            let response;
+            response = {
+              "attachment": {
+              "type": "template",
+              "payload": {
+                "template_type": "generic",
+                "elements": [{
+                "title": "Would like to cheer up your mood?",
+                "subtitle": "Tap a button to answer.",
+                "buttons": [
+                  {
+                  "type": "postback",
+                  "title": "Sing a song!",
+                  "payload": "song",
+                  },
+                  {
+                  "type": "postback",
+                  "title": "Tell a Joke!",
+                  "payload": "joke",
+                  },
+                  {
+                  "type": "postback",
+                  "title": "Motivational Quote!",
+                  "payload": "quote",
+                  }
+                ]
+                }]
+              }
+              }
+            }
+            callSendAPI(sender_psid, response);
+        }} else if (webhook_event.postback) {
+          handlePostback(sender_psid, webhook_event.postback);
+        }
       });
   
       // Returns a '200 OK' response to all requests
