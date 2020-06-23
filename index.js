@@ -73,21 +73,19 @@ app.post('/webhook', (req, res) => {
             console.log('178766 else if branch')
             let response;
             response = {
-              "message": {
-                "text": "We have some tasks that can help cheer you up.",
-                "quick_replies": [
-                  {
-                    "content_type": "text",
-                    "title": "Let's Start",
-                    "payload": "tasks_start",
-                  },
-                  {
-                    "content_type": "text",
-                    "title": "Not Now",
-                    "payload": "tasks_laters",
-                  }
-                ]
-              }
+              "text": "We have some tasks that can help cheer you up.",
+              "quick_replies": [
+                {
+                  "content_type": "text",
+                  "title": "Let's Start",
+                  "payload": "tasks_start",
+                },
+                {
+                  "content_type": "text",
+                  "title": "Not Now",
+                  "payload": "tasks_laters",
+                }
+              ]
             }
             // response = {
             //   "attachment": {
