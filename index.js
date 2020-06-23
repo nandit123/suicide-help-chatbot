@@ -339,6 +339,25 @@ function handlePostback(sender_psid, received_postback) {
 	  response = {"text": "Please submit the image of yours doing today's task. Our team will verify it later."}
 	  callSendAPI(sender_psid, response);
   } else if (payload === 'yes') {
+	  const client3 = new MongoClient(uri, { useNewUrlParser: true });
+
+      client3.connect((err, client) => {
+          if (err) {
+            console.log('mongodb client Failed to connect')
+          } else {
+            let collection = client.db("db1").collection("user_data");
+            collection.update({ user_id: sender_psid }, { $inc: { tasks: 1 } });
+		  }	
+        
+          // perform actions on the collection object
+          client3.close();
+        });
+	  const client4 = new MongoClient(uri, { useNewUrlParser: true });
+	  var query = {user_id: sender_psid};
+            collection.find(query).toArray()
+            .then(result => {
+              console.log('result: ', result);
+            })
 	//Check in the Mongo and accordingly send the next task
   } else if (payload ==='no') {
 	  response = {"text": "Please share the attachment again."}
