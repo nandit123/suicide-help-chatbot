@@ -16,7 +16,11 @@ const uri = "mongodb+srv://admin:goodadmin@cluster0-ctvvi.mongodb.net/db1?retryW
 
 let tasks = [
 
-  ["Task 1: Go out for run for 1 hour", "https://image.shutterstock.com/z/stock-photo-bright-spring-view-of-the-cameo-island-picturesque-morning-scene-on-the-port-sostis-zakinthos-1048185397.jpg", "Go out for run for 1 hour. Then send a screenshot of where you run for proof."]
+  ["Task 1: Go out for run for 1 hour", "https://images.unsplash.com/photo-1528543606781-2f6e6857f318?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=701&q=80", "Go out for run for 1 hour. Then send a photograph of where you run for proof."],
+  ["Task 2: Feed stray animals", "https://images.unsplash.com/photo-1500384066616-8a8d547abfc9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80", "Go out and feed a stray animal or a bird. Then send a picture as a proof."],
+  ["Task 3: Help an underprivileged", "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80", "Go out and help a person in need. Then send a photograph as a proof"],
+  ["Task 4: Social Media Detox", "https://images.unsplash.com/photo-1562577309-4932fdd64cd1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=667&q=80", "Delete/Disable/Logout from all of your social media apps for a day. Then send a screenshot of the menu for proof."],
+  ["Task 5: Phone a friend", "https://images.unsplash.com/photo-1522010405997-1b0d70605f78?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80", "Call 3 old friends of yours whom you have not been in touch from a long time. Then send a screenshot of your call as a proof."]
 
 ];
 
@@ -91,6 +95,11 @@ app.post('/webhook', (req, res) => {
                   "content_type": "text",
                   "title": "Not Now",
                   "payload": "tasks_later",
+                },
+				{
+                  "content_type": "text",
+                  "title": "View All",
+                  "payload": "view_all",
                 }
               ]
             }
