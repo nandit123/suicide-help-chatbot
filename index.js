@@ -346,6 +346,7 @@ function handlePostback(sender_psid, received_postback) {
             console.log('mongodb client Failed to connect')
           } else {
             let collection = client.db("db1").collection("user_data");
+			console.log('abc')
             collection.update({ user_id: sender_psid }, { $inc: { tasks: 1 } });
 		  }	
         
