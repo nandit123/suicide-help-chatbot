@@ -14,8 +14,6 @@ app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
 //Mongo connection
 const MongoClient = require('mongodb').MongoClient;
 const uri = "mongodb+srv://admin:goodadmin@cluster0-ctvvi.mongodb.net/db1?retryWrites=true&w=majority";
-const client = new MongoClient(uri, { useNewUrlParser: true });
-
 
 
 // Creates the endpoint for our webhook 
@@ -37,6 +35,8 @@ app.post('/webhook', (req, res) => {
         // Get the sender PSID
         let sender_psid = webhook_event.sender.id;
         console.log('Sender PSID: ' + sender_psid);
+        const client = new MongoClient(uri, { useNewUrlParser: true });
+
         client.connect((err, client) => {
           if (err) {
             console.log('mongodb client Failed to connect')
