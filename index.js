@@ -307,7 +307,7 @@ function handlePostback(sender_psid, received_postback) {
     // Send the message to acknowledge the postback
     callSendAPI(sender_psid, response);
   } else if (payload === 'tasks_start') {
-    //let t = 0; //fetch t from tasks completed by the user_id (call from mongodb)
+    let t = 0; //fetch t from tasks completed by the user_id (call from mongodb)
 	const client = new MongoClient(uri, { useNewUrlParser: true });
 	client.connect((err, client) => {
           if (err) {
@@ -318,7 +318,7 @@ function handlePostback(sender_psid, received_postback) {
             collection.find(query).toArray()
             .then(result => {
               console.log('result1: ', result[0]['tasks']);
-			  let t = result[0]['tasks'];
+			  global.t = result[0]['tasks'];
             })
             .catch(err => console.error(`Failed to find documents: ${err}`))
           }	
