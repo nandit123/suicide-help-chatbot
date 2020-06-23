@@ -359,19 +359,48 @@ function handlePostback(sender_psid, received_postback) {
 	  response = {"text": "Please submit the image of yours doing today's task. Our team will verify it later."}
 	  callSendAPI(sender_psid, response);
   } else if (payload === 'yes') {
-	  const client3 = new MongoClient(uri, { useNewUrlParser: true });
-
-      client3.connect((err, client) => {
+	let t = 0; //fetch t from tasks completed by the user_id (call from mongodb)
+	const client = new MongoClient(uri, { useNewUrlParser: true });
+	client.connect((err, client) => {
           if (err) {
             console.log('mongodb client Failed to connect')
           } else {
             let collection = client.db("db1").collection("user_data");
-			console.log('abc')
-            collection.update({ user_id: sender_psid }, { $inc: { tasks: 1 } });
-		  }	
+			collection.update({ user_id: sender_psid }, { $inc: { tasks: 1 } });
+            var query = {user_id: sender_psid};
+            collection.find(query).toArray()
+            .then(result => {
+              console.log('result1: ', result[0]['tasks']);
+			  t = result[0]['tasks'];
+			  console.log('Tasks:',t);
+			  response = {
+			  "attachment": {
+				"type": "template",
+				"text": "Glad you completed the task! Please find below your next task.",
+				"payload": {
+				  "template_type": "generic",
+				  "elements": [{
+					"title": tasks[t][0],
+						  "image_url": tasks[t][1],
+					"subtitle": tasks[t][2],
+					"buttons": [
+					  {
+						"type": "postback",
+						"title": "Submit proof",
+						"payload": "proof",
+					  }
+					],
+				  }]
+				}
+			  }
+			}
+			callSendAPI(sender_psid, response);
+            })
+            .catch(err => console.error(`Failed to find documents: ${err}`))
+          }	
         
           // perform actions on the collection object
-          client3.close();
+          client.close();
         });
 
 	//Check in the Mongo and accordingly send the next task
