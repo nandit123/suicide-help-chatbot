@@ -1,5 +1,5 @@
 'use strict';
-const PAGE_ACCESS_TOKEN ="EAAKgqfnzF6MBAN1iU92kR1Di1WJWOTeJSPWNmZAQe6uhZAay9792fPmPEjwKUvOE5gACbM0oyZA8xCxkVbuZBmggLr7Q9UmpZBHXKNu1hcwPBr362ujFcOdiTkhL7oU8cOwJMFHTdd6j0JApNEJ2AH2sRPEDYfyRZBQk6UTsz2yoD7ZAr45XhtP";
+const PAGE_ACCESS_TOKEN = "EAAKgqfnzF6MBAN1iU92kR1Di1WJWOTeJSPWNmZAQe6uhZAay9792fPmPEjwKUvOE5gACbM0oyZA8xCxkVbuZBmggLr7Q9UmpZBHXKNu1hcwPBr362ujFcOdiTkhL7oU8cOwJMFHTdd6j0JApNEJ2AH2sRPEDYfyRZBQk6UTsz2yoD7ZAr45XhtP";
 // Imports dependencies and set up http server
 const
   express = require('express'),
@@ -7,7 +7,7 @@ const
   fetch = require('node-fetch'),
   app = express().use(bodyParser.json()); // creates express http server
 
-  // Sets server port and logs message on success
+// Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
 
 //Mongo connection
@@ -25,32 +25,32 @@ let tasks = [
 ];
 
 // Creates the endpoint for our webhook 
-app.post('/webhook', (req, res) => {  
- 
-    let body = req.body;
-  
-    // Checks this is an event from a page subscription
-    if (body.object === 'page') {
-  
-      // Iterates over each entry - there may be multiple if batched
-      body.entry.forEach(function(entry) {
-		console.log(body)
-        // Gets the message. entry.messaging is an array, but 
-        // will only ever contain one message, so we get index 0
-        let webhook_event = entry.messaging[0];
+app.post('/webhook', (req, res) => {
 
-        // Get the sender PSID
-        let sender_psid = webhook_event.sender.id;
-        console.log('Sender PSID: ' + sender_psid);
-        const client = new MongoClient(uri, { useNewUrlParser: true });
+  let body = req.body;
 
-        client.connect((err, client) => {
-          if (err) {
-            console.log('mongodb client Failed to connect')
-          } else {
-            let collection = client.db("db1").collection("user_data");
-            var query = {user_id: sender_psid};
-            collection.find(query).toArray()
+  // Checks this is an event from a page subscription
+  if (body.object === 'page') {
+
+    // Iterates over each entry - there may be multiple if batched
+    body.entry.forEach(function (entry) {
+      console.log(body)
+      // Gets the message. entry.messaging is an array, but 
+      // will only ever contain one message, so we get index 0
+      let webhook_event = entry.messaging[0];
+
+      // Get the sender PSID
+      let sender_psid = webhook_event.sender.id;
+      console.log('Sender PSID: ' + sender_psid);
+      const client = new MongoClient(uri, { useNewUrlParser: true });
+
+      client.connect((err, client) => {
+        if (err) {
+          console.log('mongodb client Failed to connect')
+        } else {
+          let collection = client.db("db1").collection("user_data");
+          var query = { user_id: sender_psid };
+          collection.find(query).toArray()
             .then(result => {
               console.log('result: ', result);
               if (result.length == 0) {
@@ -65,123 +65,124 @@ app.post('/webhook', (req, res) => {
               }
             })
             .catch(err => console.error(`Failed to find documents: ${err}`))
-          }	
-        
-          // perform actions on the collection object
-          client.close();
-        });
-        
-        if (webhook_event.message) {
-          if (webhook_event.message.text=='hi') {
-            greetingMessage(sender_psid);
-          } else if (webhook_event.message.attachments) {
-            console.log("Attachment Received");
-            handleMessage(sender_psid, webhook_event.message);
-          } else if (webhook_event.message.quick_reply) {
-            // to handle postback of quick reply
-            handlePostback(sender_psid, webhook_event.message.quick_reply)
-          } else if (webhook_event.message.text) {
-            console.log('178766 else if branch: webhook_event.message.text: ', webhook_event.message.text);
-            let response;
-            response = {
-              "text": "We have some tasks that can help cheer you up.",
-              "quick_replies": [
-                {
-                  "content_type": "text",
-                  "title": "Let's Start",
-                  "payload": "tasks_start",
-                },
-                {
-                  "content_type": "text",
-                  "title": "Not Now",
-                  "payload": "tasks_later",
-                },
-				{
-                  "content_type": "text",
-                  "title": "View All",
-                  "payload": "view_all",
-                }
-              ]
-            }
-            callSendAPI(sender_psid, response);
-        }} else if (webhook_event.postback) {
-          handlePostback(sender_psid, webhook_event.postback);
         }
-      });
-  
-      // Returns a '200 OK' response to all requests
-      res.status(200).send('EVENT_RECEIVED');
-    } else {
-      // Returns a '404 Not Found' if event is not from a page subscription
-      res.sendStatus(404);
-    }
 
-  });
+        // perform actions on the collection object
+        client.close();
+      });
+
+      if (webhook_event.message) {
+        if (webhook_event.message.text == 'hi') {
+          greetingMessage(sender_psid);
+        } else if (webhook_event.message.attachments) {
+          console.log("Attachment Received");
+          handleMessage(sender_psid, webhook_event.message);
+        } else if (webhook_event.message.quick_reply) {
+          // to handle postback of quick reply
+          handlePostback(sender_psid, webhook_event.message.quick_reply)
+        } else if (webhook_event.message.text) {
+          console.log('178766 else if branch: webhook_event.message.text: ', webhook_event.message.text);
+          let response;
+          response = {
+            "text": "We have some tasks that can help cheer you up.",
+            "quick_replies": [
+              {
+                "content_type": "text",
+                "title": "Let's Start",
+                "payload": "tasks_start",
+              },
+              {
+                "content_type": "text",
+                "title": "Not Now",
+                "payload": "tasks_later",
+              },
+              {
+                "content_type": "text",
+                "title": "View All",
+                "payload": "view_all",
+              }
+            ]
+          }
+          callSendAPI(sender_psid, response);
+        }
+      } else if (webhook_event.postback) {
+        handlePostback(sender_psid, webhook_event.postback);
+      }
+    });
+
+    // Returns a '200 OK' response to all requests
+    res.status(200).send('EVENT_RECEIVED');
+  } else {
+    // Returns a '404 Not Found' if event is not from a page subscription
+    res.sendStatus(404);
+  }
+
+});
 
 // Adds support for GET requests to our webhook
 app.get('/webhook', (req, res) => {
 
-    // Your verify token. Should be a random string.
-    let VERIFY_TOKEN = "<YOUR_VERIFY_TOKEN>"
-      
-    // Parse the query params
-    let mode = req.query['hub.mode'];
-    let token = req.query['hub.verify_token'];
-    let challenge = req.query['hub.challenge'];
-      
-    // Checks if a token and mode is in the query string of the request
-    if (mode && token) {
-    
-      // Checks the mode and token sent is correct
-      if (mode === 'subscribe' && token === VERIFY_TOKEN) {
-        
-        // Responds with the challenge token from the request
-        console.log('WEBHOOK_VERIFIED');
-        res.status(200).send(challenge);
-      
-      } else {
-        // Responds with '403 Forbidden' if verify tokens do not match
-        res.sendStatus(403);      
-      }
+  // Your verify token. Should be a random string.
+  let VERIFY_TOKEN = "<YOUR_VERIFY_TOKEN>"
+
+  // Parse the query params
+  let mode = req.query['hub.mode'];
+  let token = req.query['hub.verify_token'];
+  let challenge = req.query['hub.challenge'];
+
+  // Checks if a token and mode is in the query string of the request
+  if (mode && token) {
+
+    // Checks the mode and token sent is correct
+    if (mode === 'subscribe' && token === VERIFY_TOKEN) {
+
+      // Responds with the challenge token from the request
+      console.log('WEBHOOK_VERIFIED');
+      res.status(200).send(challenge);
+
+    } else {
+      // Responds with '403 Forbidden' if verify tokens do not match
+      res.sendStatus(403);
     }
+  }
 });
 
-function greetingMessage(sender_psid){
-	let response;
-	response = {
-      "attachment": {
-        "type": "template",
-        "payload": {
-          "template_type": "generic",
-          "elements": [{
-            "title": "Greetings! How's your mood?",
-            "subtitle": "Tap a button to answer.",
-            "buttons": [
-              {
-                "type": "postback",
-                "title": "Happy!",
-                "payload": "happy",
-              },
-              {
-                "type": "postback",
-                "title": "Sad!",
-                "payload": "sad",
-              }
-            ]
-          }]
-        }
+function greetingMessage(sender_psid) {
+  let response;
+  response = {
+    "attachment": {
+      "type": "template",
+      "payload": {
+        "template_type": "generic",
+        "elements": [{
+          "title": "Greetings! How's your mood?",
+          "subtitle": "Tap a button to answer.",
+          "buttons": [
+            {
+              "type": "postback",
+              "title": "Happy!",
+              "payload": "happy",
+            },
+            {
+              "type": "postback",
+              "title": "Sad!",
+              "payload": "sad",
+            }
+          ]
+        }]
       }
     }
-	
-	callSendAPI(sender_psid, response);
+  }
+
+  callSendAPI(sender_psid, response);
 }
 
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
   let response;
-  
+
   // Checks if the message contains text
-  if (received_message.text) {    
+  if (received_message.text) {
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
     response = {
@@ -215,25 +216,25 @@ function handleMessage(sender_psid, received_message) {
         }
       }
     }
-  } 
-  
+  }
+
   // Send the response message
-  callSendAPI(sender_psid, response);    
+  callSendAPI(sender_psid, response);
 }
 
 // Handles messaging_postbacks events
 function handlePostback(sender_psid, received_postback) {
   let response;
-  
+
   // Get the payload for the postback
   let payload = received_postback.payload;
   console.log("166", payload)
   // Set the response based on the postback payload
   if (payload === 'GET_STARTED_PAYLOAD') {
-      response = {"text": "Hello"}
-      callSendAPI(sender_psid, response).then(() => {
-        greetingMessage(sender_psid);
-      });
+    response = { "text": "Hello" }
+    callSendAPI(sender_psid, response).then(() => {
+      greetingMessage(sender_psid);
+    });
     // callSendAPI(sender_psid, response);
   } else if (payload === 'happy') {
     response = { "text": "Glad to know that! Would you like to share with us the reason?" }
@@ -271,12 +272,12 @@ function handlePostback(sender_psid, received_postback) {
     }
     // Send the message to acknowledge the postback
     callSendAPI(sender_psid, response);
-  } else if (payload === 'today' || payload === '15days'){
-    response = {"text": "Would you like to share with us the reason behind your sadness?"}
+  } else if (payload === 'today' || payload === '15days') {
+    response = { "text": "Would you like to share with us the reason behind your sadness?" }
     // Send the message to acknowledge the postback
     callSendAPI(sender_psid, response);
   } else if (payload === '1month') {
-	response = {
+    response = {
       "attachment": {
         "type": "template",
         "payload": {
@@ -303,154 +304,158 @@ function handlePostback(sender_psid, received_postback) {
     // Send the message to acknowledge the postback
     callSendAPI(sender_psid, response);
   } else if (payload === 'consultProfessional') {
-	response = {"text": "Soon we will share you the details but right now please focus on the tasks."}
+    response = { "text": "Soon we will share you the details but right now please focus on the tasks." }
     // Send the message to acknowledge the postback
     callSendAPI(sender_psid, response);
   } else if (payload === 'tasks_start') {
     let t = 0; //fetch t from tasks completed by the user_id (call from mongodb)
-	const client = new MongoClient(uri, { useNewUrlParser: true });
-	client.connect((err, client) => {
-          if (err) {
-            console.log('mongodb client Failed to connect')
-          } else {
-            let collection = client.db("db1").collection("user_data");
-            var query = {user_id: sender_psid};
-            collection.find(query).toArray()
-            .then(result => {
-              console.log('result1: ', result[0]['tasks']);
-			  t = result[0]['tasks'];
-			  console.log('Tasks:',t);
-			  response = {
-			  "attachment": {
-				"type": "template",
-				"payload": {
-				  "template_type": "generic",
-				  "elements": [{
-					"title": tasks[t][0],
-						  "image_url": tasks[t][1],
-					"subtitle": tasks[t][2],
-					"buttons": [
-					  {
-						"type": "postback",
-						"title": "Submit proof",
-						"payload": "proof",
-					  }
-					],
-				  }]
-				}
-			  }
-			}
-			callSendAPI(sender_psid, response);
-            })
-            .catch(err => console.error(`Failed to find documents: ${err}`))
-          }	
-        
-          // perform actions on the collection object
-          client.close();
-        });
-	
+    const client = new MongoClient(uri, { useNewUrlParser: true });
+    client.connect((err, client) => {
+      if (err) {
+        console.log('mongodb client Failed to connect')
+      } else {
+        let collection = client.db("db1").collection("user_data");
+        var query = { user_id: sender_psid };
+        collection.find(query).toArray()
+          .then(result => {
+            console.log('result1: ', result[0]['tasks']);
+            t = result[0]['tasks'];
+            console.log('Tasks:', t);
+            response = {
+              "attachment": {
+                "type": "template",
+                "payload": {
+                  "template_type": "generic",
+                  "elements": [{
+                    "title": tasks[t][0],
+                    "image_url": tasks[t][1],
+                    "subtitle": tasks[t][2],
+                    "buttons": [
+                      {
+                        "type": "postback",
+                        "title": "Submit proof",
+                        "payload": "proof",
+                      }
+                    ],
+                  }]
+                }
+              }
+            }
+            callSendAPI(sender_psid, response);
+          })
+          .catch(err => console.error(`Failed to find documents: ${err}`))
+      }
+
+      // perform actions on the collection object
+      client.close();
+    });
+
   } else if (payload === 'tasks_later') {
     response = {
       "text": "Ok, come back later"
-    }  
-    callSendAPI(sender_psid, response);    
+    }
+    callSendAPI(sender_psid, response);
 
   } else if (payload === 'proof') {
-	  response = {"text": "Please submit the image of yours doing today's task. Our team will verify it later."}
-	  callSendAPI(sender_psid, response);
+    response = { "text": "Please submit the image of yours doing today's task. Our team will verify it later." }
+    callSendAPI(sender_psid, response);
   } else if (payload === 'yes') {
-	let t = 0; //fetch t from tasks completed by the user_id (call from mongodb)
-	const client = new MongoClient(uri, { useNewUrlParser: true });
-	client.connect((err, client) => {
-          if (err) {
-            console.log('mongodb client Failed to connect')
-          } else {
-            let collection = client.db("db1").collection("user_data");
-			collection.update({ user_id: sender_psid }, { $inc: { tasks: 1 } });
-            var query = {user_id: sender_psid};
-            collection.find(query).toArray()
-            .then(result => {
-              console.log('result1: ', result[0]['tasks']);
-			  t = result[0]['tasks'];
-			  console.log('Tasks:',t);
-			  response = {
-			  "attachment": {
-				"type": "template",
-				"payload": {
-				  "template_type": "generic",
-				  "elements": [{
-					"title": tasks[t][0],
-						  "image_url": tasks[t][1],
-					"subtitle": tasks[t][2],
-					"buttons": [
-					  {
-						"type": "postback",
-						"title": "Submit proof",
-						"payload": "proof",
-					  }
-					],
-				  }]
-				}
-			  },	  
-			}
-			callSendAPI(sender_psid, response);
-            })
-            .catch(err => console.error(`Failed to find documents: ${err}`))
-          }	
-        
-          // perform actions on the collection object
-          client.close();
-        });
+    let t = 0; //fetch t from tasks completed by the user_id (call from mongodb)
+    const client = new MongoClient(uri, { useNewUrlParser: true });
+    client.connect((err, client) => {
+      if (err) {
+        console.log('mongodb client Failed to connect')
+      } else {
+        let collection = client.db("db1").collection("user_data");
+        collection.update({ user_id: sender_psid }, { $inc: { tasks: 1 } });
+        var query = { user_id: sender_psid };
+        collection.find(query).toArray()
+          .then(result => {
+            console.log('result1: ', result[0]['tasks']);
+            t = result[0]['tasks'];
+            console.log('Tasks:', t);
+            response = {
+              "attachment": {
+                "type": "template",
+                "payload": {
+                  "template_type": "generic",
+                  "elements": [{
+                    "title": tasks[t][0],
+                    "image_url": tasks[t][1],
+                    "subtitle": tasks[t][2],
+                    "buttons": [
+                      {
+                        "type": "postback",
+                        "title": "Submit proof",
+                        "payload": "proof",
+                      }
+                    ],
+                  }]
+                }
+              },
+            }
+            callSendAPI(sender_psid, response);
+          })
+          .catch(err => console.error(`Failed to find documents: ${err}`))
+      }
 
-	//Check in the Mongo and accordingly send the next task
-  } else if (payload ==='no') {
-	  response = {"text": "Please share the attachment again."}
-	  callSendAPI(sender_psid, response);
+      // perform actions on the collection object
+      client.close();
+    });
+
+    //Check in the Mongo and accordingly send the next task
+  } else if (payload === 'no') {
+    response = { "text": "Please share the attachment again." }
+    callSendAPI(sender_psid, response);
   } else if (payload === 'view_all') {
-	let t = 0; //fetch t from tasks completed by the user_id (call from mongodb)
-	const client = new MongoClient(uri, { useNewUrlParser: true });
-	client.connect((err, client) => {
-          if (err) {
-            console.log('mongodb client Failed to connect')
-          } else {
-            let collection = client.db("db1").collection("user_data");
-            var query = {user_id: sender_psid};
-            collection.find(query).toArray()
-            .then(result => {
-              console.log('result1: ', result[0]['tasks']);
-			  t = result[0]['tasks'];
-			  console.log('Tasks:',t);
-			  response = {
-			  "attachment": {
-				"type": "template",
-				"payload": {
-				  "template_type": "generic",
-				  "elements": [{
-					"title": "Task 1: Go out for run for 1 hour",
-						  "image_url": "https://images.unsplash.com/photo-1559166631-ef208440c75a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80",
-					"subtitle": "Go out for run for 1 hour. Then send a photograph of where you run for proof.",
-				  },
-				   {"title": "Task 2: Feed stray animals",
-					"image_url": "https://images.unsplash.com/photo-1532598187460-98fe8826d1e2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=80",
-					"subtitle": "Go out and feed a stray animal or a bird. Then send a picture as a proof.",
-				  },
-				   {"title": "Task 3: Help an underprivileged",
-					"image_url": "https://images.unsplash.com/photo-1547496614-54ff387d650a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80",
-					"subtitle": "Go out and help a person in need. Then send a photograph as a proof.",
-				  },
-				   {"title": "Task 4: Social Media Detox",
-					"image_url": "https://dailyillini.com/wp-content/uploads/2017/10/DI-Phone-Graphic-01-900x900.png",
-					"subtitle": "Delete/Disable/Logout from all of your social media apps for a day. Then send a screenshot of the menu for proof.",
-				  },
-				   {"title": "Task 5: Phone a friend",
-					"image_url": "https://images.unsplash.com/photo-1522108133167-a96f36e623e7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80",
-					"subtitle": "Call 3 old friends of yours whom you have not been in touch from a long time. Then send a screenshot of your call as a proof.",
-				  },
-				  ]
-				  
-				}
-			  },
-			  
+    let t = 0; //fetch t from tasks completed by the user_id (call from mongodb)
+    const client = new MongoClient(uri, { useNewUrlParser: true });
+    client.connect((err, client) => {
+      if (err) {
+        console.log('mongodb client Failed to connect')
+      } else {
+        let collection = client.db("db1").collection("user_data");
+        var query = { user_id: sender_psid };
+        collection.find(query).toArray()
+          .then(result => {
+            console.log('result1: ', result[0]['tasks']);
+            t = result[0]['tasks'];
+            console.log('Tasks:', t);
+            response = {
+              "attachment": {
+                "type": "template",
+                "payload": {
+                  "template_type": "generic",
+                  "elements": [{
+                    "title": "Task 1: Go out for run for 1 hour",
+                    "image_url": "https://images.unsplash.com/photo-1559166631-ef208440c75a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80",
+                    "subtitle": "Go out for run for 1 hour. Then send a photograph of where you run for proof.",
+                  },
+                  {
+                    "title": "Task 2: Feed stray animals",
+                    "image_url": "https://images.unsplash.com/photo-1532598187460-98fe8826d1e2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=80",
+                    "subtitle": "Go out and feed a stray animal or a bird. Then send a picture as a proof.",
+                  },
+                  {
+                    "title": "Task 3: Help an underprivileged",
+                    "image_url": "https://images.unsplash.com/photo-1547496614-54ff387d650a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80",
+                    "subtitle": "Go out and help a person in need. Then send a photograph as a proof.",
+                  },
+                  {
+                    "title": "Task 4: Social Media Detox",
+                    "image_url": "https://dailyillini.com/wp-content/uploads/2017/10/DI-Phone-Graphic-01-900x900.png",
+                    "subtitle": "Delete/Disable/Logout from all of your social media apps for a day. Then send a screenshot of the menu for proof.",
+                  },
+                  {
+                    "title": "Task 5: Phone a friend",
+                    "image_url": "https://images.unsplash.com/photo-1522108133167-a96f36e623e7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80",
+                    "subtitle": "Call 3 old friends of yours whom you have not been in touch from a long time. Then send a screenshot of your call as a proof.",
+                  },
+                  ]
+
+                }
+              },
+
               "quick_replies": [
                 {
                   "content_type": "text",
@@ -463,21 +468,21 @@ function handlePostback(sender_psid, received_postback) {
                   "payload": "tasks_later",
                 }
               ]
-			}
-			for(var i=0;i<t;i++){
-				response['attachment']['payload']['elements'][i]['title'] = '(Completed) '.concat(response['attachment']['payload']['elements'][i]['title'])
-			}
-			console.log(response)
-	  callSendAPI(sender_psid, response);
-	  })
-            .catch(err => console.error(`Failed to find documents: ${err}`))
-          }	
-        
-          // perform actions on the collection object
-          client.close();
-        });
-		
-	  
+            }
+            for (var i = 0; i < t; i++) {
+              response['attachment']['payload']['elements'][i]['title'] = '(Completed) '.concat(response['attachment']['payload']['elements'][i]['title'])
+            }
+            console.log(response)
+            callSendAPI(sender_psid, response);
+          })
+          .catch(err => console.error(`Failed to find documents: ${err}`))
+      }
+
+      // perform actions on the collection object
+      client.close();
+    });
+
+
   }
 }
 
@@ -493,9 +498,9 @@ function callSendAPI(sender_psid, response) {
 
   // Send the HTTP request to the Messenger Platform
   const qs = 'access_token=' + encodeURIComponent(PAGE_ACCESS_TOKEN); // Here you'll need to add your PAGE TOKEN from Facebook
-      return fetch('https://graph.facebook.com/v2.6/me/messages?' + qs, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(request_body),
-    });
+  return fetch('https://graph.facebook.com/v2.6/me/messages?' + qs, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(request_body),
+  });
 }
