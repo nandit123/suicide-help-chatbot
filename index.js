@@ -368,10 +368,13 @@ function handlePostback(sender_psid, received_postback) {
               }
               callSendAPI(sender_psid, response);
             } else {
+              console.log('tony1');
               response = {
                 "text": "Hey, you have completed all tasks available. Check back later for new tasks"
               }
+              console.log('tony2');
               callSendAPI(sender_psid, response);
+              console.log('tony3');
               response = {
                 "attachment": {
                   "type":"template",
@@ -382,7 +385,9 @@ function handlePostback(sender_psid, received_postback) {
                   }
                 }
               }
+              console.log('tony4');
               callSendAPI(sender_psid, response);
+              console.log('tony5');
             }
           })
           .catch(err => console.error(`Failed to find documents: ${err}`))
@@ -570,6 +575,7 @@ function handlePostback(sender_psid, received_postback) {
       }
     });
   } else if (payload === 'new_tasks_one_time_notif') {
+    let response;
     response = {
       "text": "Ok, we will notify you as soon as a new task arrives. Stay Happy and Stay Safe. You can reset progress to do the tasks again.",
       "quick_replies": [
