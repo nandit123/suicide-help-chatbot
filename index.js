@@ -100,6 +100,11 @@ app.post('/webhook', (req, res) => {
                 "content_type": "text",
                 "title": "View all tasks",
                 "payload": "view_all",
+              },
+              {
+                "content_type": "text",
+                "title": "Reset Progress",
+                "payload": "reset_progress",
               }
             ]
           }
@@ -401,6 +406,11 @@ function handlePostback(sender_psid, received_postback) {
                   "content_type": "text",
                   "title": "View all tasks",
                   "payload": "view_all",
+                },
+                {
+                  "content_type": "text",
+                  "title": "Reset Progress",
+                  "payload": "reset_progress",
                 }
               ]
             }
@@ -493,6 +503,9 @@ function handlePostback(sender_psid, received_postback) {
     });
 
 
+  } else if (payload === 'reset_progress') {
+    let collection = client.db("db1").collection("user_data");
+    collection.update({ user_id: sender_psid }, { $set: { tasks: 0 } });
   }
 }
 
