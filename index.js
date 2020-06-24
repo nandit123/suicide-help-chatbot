@@ -326,16 +326,7 @@ function handlePostback(sender_psid, received_postback) {
     // Send the message to acknowledge the postback
     callSendAPI(sender_psid, response);
   } else if (payload === 'consultProfessional') {
-    response = {
-                "text": "Help line number",
-                "quick_replies": [
-                  {
-                    "content_type": "user_phone_number",
-                    "title": "1234",
-                    "payload": "phoneCall",
-                  }
-                ]
-              }
+    response = {"text": "This is the good step in the right direction to contact a professional. HelpLine No. - 09152987821"}
 	console.log(response)
     // Send the message to acknowledge the postback
     callSendAPI(sender_psid, response);
