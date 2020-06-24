@@ -98,7 +98,7 @@ app.post('/webhook', (req, res) => {
               },
               {
                 "content_type": "text",
-                "title": "View All",
+                "title": "View all tasks",
                 "payload": "view_all",
               }
             ]
@@ -391,7 +391,7 @@ function handlePostback(sender_psid, received_postback) {
                 },
                 {
                   "content_type": "text",
-                  "title": "View All",
+                  "title": "View all tasks",
                   "payload": "view_all",
                 }
               ]
