@@ -319,29 +319,37 @@ function handlePostback(sender_psid, received_postback) {
         collection.find(query).toArray()
           .then(result => {
             console.log('result1: ', result[0]['tasks']);
+            // get value of t (number of tasks done) from mongodb
             t = result[0]['tasks'];
             console.log('Tasks:', t);
-            response = {
-              "attachment": {
-                "type": "template",
-                "payload": {
-                  "template_type": "generic",
-                  "elements": [{
-                    "title": tasks[t][0],
-                    "image_url": tasks[t][1],
-                    "subtitle": tasks[t][2],
-                    "buttons": [
-                      {
-                        "type": "postback",
-                        "title": "Submit proof",
-                        "payload": "proof",
-                      }
-                    ],
-                  }]
+            if (t < tasks.length) {
+              response = {
+                "attachment": {
+                  "type": "template",
+                  "payload": {
+                    "template_type": "generic",
+                    "elements": [{
+                      "title": tasks[t][0],
+                      "image_url": tasks[t][1],
+                      "subtitle": tasks[t][2],
+                      "buttons": [
+                        {
+                          "type": "postback",
+                          "title": "Submit proof",
+                          "payload": "proof",
+                        }
+                      ],
+                    }]
+                  }
                 }
               }
+              callSendAPI(sender_psid, response);
+            } else {
+              response = {
+                "text": "Hey, you have completed all tasks available. Check back later for new tasks"
+              }
+              callSendAPI(sender_psid, response);
             }
-            callSendAPI(sender_psid, response);
           })
           .catch(err => console.error(`Failed to find documents: ${err}`))
       }
