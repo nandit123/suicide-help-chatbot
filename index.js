@@ -374,34 +374,14 @@ function handlePostback(sender_psid, received_postback) {
             console.log('result1: ', result[0]['tasks']);
             t = result[0]['tasks'];
             console.log('Tasks:', t);
-            // response = {
-            //   "attachment": {
-            //     "type": "template",
-            //     "payload": {
-            //       "template_type": "generic",
-            //       "elements": [{
-            //         "title": tasks[t][0],
-            //         "image_url": tasks[t][1],
-            //         "subtitle": tasks[t][2],
-            //         "buttons": [
-            //           {
-            //             "type": "postback",
-            //             "title": "Submit proof",
-            //             "payload": "proof",
-            //           }
-            //         ],
-            //       }]
-            //     }
-            //   },
-            // }
             let remainingTasks = 5 - t;
-            let text = "Congratulations, you have completed this task. Remaining tasks: " + remainingTasks + "."
+            let text = "Congratulations, you have completed this task. Remaining tasks: " + remainingTasks;
             response = {
               "text": text,
               "quick_replies": [
                 {
                   "content_type": "text",
-                  "title": "Let's Start",
+                  "title": "Next Task",
                   "payload": "tasks_start",
                 },
                 {
