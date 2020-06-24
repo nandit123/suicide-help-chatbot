@@ -39,6 +39,12 @@ app.post('/webhook', (req, res) => {
       // will only ever contain one message, so we get index 0
       let webhook_event = entry.messaging[0];
       console.log('webhook event: ', webhook_event);
+      if (entry.optin) {
+        console.log('this is optin')
+        console.log('type:', entry.optin.time)
+        console.log('payload:', entry.optin.payload)
+        console.log('one_time_notif_token:', entry.optin.one_time_notif_token)
+      } 
       // Get the sender PSID
       let sender_psid = webhook_event.sender.id;
       console.log('Sender PSID: ' + sender_psid);
