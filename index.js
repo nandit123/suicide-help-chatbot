@@ -504,8 +504,15 @@ function handlePostback(sender_psid, received_postback) {
 
 
   } else if (payload === 'reset_progress') {
-    let collection = client.db("db1").collection("user_data");
-    collection.update({ user_id: sender_psid }, { $set: { tasks: 0 } });
+    const client = new MongoClient(uri, { useNewUrlParser: true });
+    client.connect((err, client) => {
+      if (err) {
+        console.log('mongodb client Failed to connect')
+      } else {
+        let collection = client.db("db1").collection("user_data");
+        collection.update({ user_id: sender_psid }, { $set: { tasks: 0 } });
+      }
+    });
   }
 }
 
