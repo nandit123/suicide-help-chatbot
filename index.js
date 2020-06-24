@@ -71,7 +71,9 @@ app.post('/webhook', (req, res) => {
       });
 
       if (webhook_event.message) {
-        if (webhook_event.message.text == 'hi') {
+        let messageText = webhook_event.message.text;
+        messageText = messageText.toLowerCase();
+        if (messageText == 'hi' || messageText == 'hello') {
           greetingMessage(sender_psid);
         } else if (webhook_event.message.attachments) {
           console.log("Attachment Received");
@@ -321,7 +323,21 @@ function handlePostback(sender_psid, received_postback) {
     // Send the message to acknowledge the postback
     callSendAPI(sender_psid, response);
   } else if (payload === 'consultProfessional') {
-    response = {"text": "This is the good step in the right direction to contact a professional.\n HelpLine No. - 09152987821 \n Website - www.icallhelpline.org"}
+    response = {
+      "text": "This is the good step in the right direction to contact a professional.\n HelpLine No. - 09152987821 \n Website - www.icallhelpline.org",
+      "quick_replies": [
+        {
+          "content_type": "text",
+          "title": "Start over",
+          "payload": "GET_STARTED_PAYLOAD",
+        },
+        {
+          "content_type": "text",
+          "title": "View all tasks",
+          "payload": "view_all",
+        }
+      ]
+    }
 	console.log(response)
     // Send the message to acknowledge the postback
     callSendAPI(sender_psid, response);
