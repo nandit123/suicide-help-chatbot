@@ -28,7 +28,7 @@ let tasks = [
 app.post('/webhook', (req, res) => {
 
   let body = req.body;
-
+  console.log(body);
   // Checks this is an event from a page subscription
   if (body.object === 'page') {
 
@@ -39,12 +39,12 @@ app.post('/webhook', (req, res) => {
       // will only ever contain one message, so we get index 0
       let webhook_event = entry.messaging[0];
       console.log('webhook event: ', webhook_event);
-      if (entry.optin) {
-        console.log('this is optin')
-        console.log('type:', entry.optin.time)
-        console.log('payload:', entry.optin.payload)
-        console.log('one_time_notif_token:', entry.optin.one_time_notif_token)
-      } 
+      // if (entry.optin) {
+      //   console.log('this is optin')
+      //   console.log('type:', entry.optin.time)
+      //   console.log('payload:', entry.optin.payload)
+      //   console.log('one_time_notif_token:', entry.optin.one_time_notif_token)
+      // } 
       // Get the sender PSID
       let sender_psid = webhook_event.sender.id;
       console.log('Sender PSID: ' + sender_psid);
@@ -374,13 +374,10 @@ function handlePostback(sender_psid, received_postback) {
               }
               callSendAPI(sender_psid, response);
             } else {
-              console.log('tony1');
               response = {
                 "text": "Hey, you have completed all tasks available. Check back later for new tasks"
               }
-              console.log('tony2');
               callSendAPI(sender_psid, response);
-              console.log('tony3');
               response = {
                 "attachment": {
                   "type":"template",
@@ -391,9 +388,7 @@ function handlePostback(sender_psid, received_postback) {
                   }
                 }
               }
-              console.log('tony4');
               callSendAPI(sender_psid, response);
-              console.log('tony5');
             }
           })
           .catch(err => console.error(`Failed to find documents: ${err}`))
