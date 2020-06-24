@@ -326,7 +326,23 @@ function handlePostback(sender_psid, received_postback) {
     // Send the message to acknowledge the postback
     callSendAPI(sender_psid, response);
   } else if (payload === 'consultProfessional') {
-    response = { "text": "Soon we will share you the details but right now please focus on the tasks." }
+    response = {
+		  "object": "page",
+		  "entry": [
+			{
+			  "messaging": [
+				{
+				  "message": {
+					"quick_reply": {
+					  "payload": "phoneCall"
+					},
+					"text": "1234"
+				  }
+				}
+			  ]
+			}
+		  ]
+		}
     // Send the message to acknowledge the postback
     callSendAPI(sender_psid, response);
   } else if (payload === 'tasks_start') {
