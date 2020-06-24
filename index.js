@@ -72,8 +72,7 @@ app.post('/webhook', (req, res) => {
 
       if (webhook_event.message) {
         let messageText = webhook_event.message.text;
-        messageText = messageText.toLowerCase();
-        if (messageText == 'hi' || messageText == 'hello') {
+        if (messageText == 'hi' || messageText == 'hello' || messageText == 'Hello' || messageText == 'Hi' || messageText == 'hello' || messageText == 'HELLO' || messageText == 'HI' || messageText == 'hey' || messageText == 'Hey' || messageText == 'HEY') {
           greetingMessage(sender_psid);
         } else if (webhook_event.message.attachments) {
           console.log("Attachment Received");
