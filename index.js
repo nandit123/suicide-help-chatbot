@@ -28,23 +28,16 @@ let tasks = [
 app.post('/webhook', (req, res) => {
 
   let body = req.body;
-  console.log(body);
   // Checks this is an event from a page subscription
   if (body.object === 'page') {
 
     // Iterates over each entry - there may be multiple if batched
     body.entry.forEach(function (entry) {
-      console.log(body)
       // Gets the message. entry.messaging is an array, but 
       // will only ever contain one message, so we get index 0
       let webhook_event = entry.messaging[0];
       console.log('webhook event: ', webhook_event);
-      // if (entry.optin) {
-      //   console.log('this is optin')
-      //   console.log('type:', entry.optin.time)
-      //   console.log('payload:', entry.optin.payload)
-      //   console.log('one_time_notif_token:', entry.optin.one_time_notif_token)
-      // } 
+
       // Get the sender PSID
       let sender_psid = webhook_event.sender.id;
       console.log('Sender PSID: ' + sender_psid);
@@ -350,7 +343,6 @@ function handlePostback(sender_psid, received_postback) {
             console.log('result1: ', result[0]['tasks']);
             // get value of t (number of tasks done) from mongodb
             t = result[0]['tasks'];
-            console.log('Tasks:', t);
             if (t < tasks.length) {
               response = {
                 "attachment": {
@@ -421,7 +413,6 @@ function handlePostback(sender_psid, received_postback) {
           .then(result => {
             console.log('result1: ', result[0]['tasks']);
             t = result[0]['tasks'];
-            console.log('Tasks:', t);
             let remainingTasks = 5 - t;
             let text = "Congratulations, you have completed this task. Remaining tasks: " + remainingTasks;
             response = {
@@ -475,7 +466,6 @@ function handlePostback(sender_psid, received_postback) {
           .then(result => {
             console.log('result1: ', result[0]['tasks']);
             t = result[0]['tasks'];
-            console.log('Tasks:', t);
             response = {
               "attachment": {
                 "type": "template",
