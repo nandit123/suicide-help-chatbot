@@ -82,33 +82,50 @@ app.post('/webhook', (req, res) => {
           handlePostback(sender_psid, webhook_event.message.quick_reply)
         } else if (webhook_event.message.text) {
           console.log('178766 else if branch: webhook_event.message.text: ', webhook_event.message.text);
-          let response;
-          response = {
-            "text": "We have some tasks that can help cheer you up.",
-            "quick_replies": [
-              {
-                "content_type": "text",
-                "title": "Let's Start",
-                "payload": "tasks_start",
-              },
-              {
-                "content_type": "text",
-                "title": "Not Now",
-                "payload": "tasks_later",
-              },
-              {
-                "content_type": "text",
-                "title": "View all tasks",
-                "payload": "view_all",
-              },
-              {
-                "content_type": "text",
-                "title": "Reset Progress",
-                "payload": "reset_progress",
-              }
-            ]
-          }
-          callSendAPI(sender_psid, response);
+          let t = 0; //fetch t from tasks completed by the user_id (call from mongodb)
+          const client = new MongoClient(uri, { useNewUrlParser: true });
+          client.connect((err, client) => {
+            if (err) {
+              console.log('mongodb client Failed to connect')
+            } else {
+              let collection = client.db("db1").collection("user_data");
+              var query = { user_id: sender_psid };
+              collection.find(query).toArray()
+                .then(result => {
+                  console.log('result1: ', result[0]['tasks']);
+                  // get value of t (number of tasks done) from mongodb
+                  t = result[0]['tasks'];
+                  console.log('Tasks:', t);
+                  let response;
+                  response = {
+                    "text": "We have some tasks that will cheer you up and freshen your mind. Currently, you have completed " + t + " tasks. Time to do the next task !!",
+                    "quick_replies": [
+                      {
+                        "content_type": "text",
+                        "title": "Let's Start",
+                        "payload": "tasks_start",
+                      },
+                      {
+                        "content_type": "text",
+                        "title": "Not Now",
+                        "payload": "tasks_later",
+                      },
+                      {
+                        "content_type": "text",
+                        "title": "View all tasks",
+                        "payload": "view_all",
+                      },
+                      {
+                        "content_type": "text",
+                        "title": "Reset Progress",
+                        "payload": "reset_progress",
+                      }
+                    ]
+                  }
+                  callSendAPI(sender_psid, response);
+                })
+            }
+          })
         }
       } else if (webhook_event.postback) {
         handlePostback(sender_psid, webhook_event.postback);
