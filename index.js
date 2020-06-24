@@ -372,11 +372,11 @@ function handlePostback(sender_psid, received_postback) {
               callSendAPI(sender_psid, response);
               response = {
                 "attachment": {
-                  "type":"template",
+                  "type": "template",
                   "payload": {
-                    "template_type":"one_time_notif_req",
-                    "title":"Get Notified: When new tasks are available for you to complete!",
-                    "payload":"new_tasks_one_time_notif"
+                    "template_type": "one_time_notif_req",
+                    "title": "Get Notified: When new tasks are available for you to complete!",
+                    "payload": "new_tasks_one_time_notif"
                   }
                 }
               }
