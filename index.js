@@ -535,11 +535,6 @@ function handlePostback(sender_psid, received_postback) {
               "content_type": "text",
               "title": "View all tasks",
               "payload": "view_all",
-            },
-            {
-              "content_type": "text",
-              "title": "Reset Progress",
-              "payload": "reset_progress",
             }
           ]
         }
