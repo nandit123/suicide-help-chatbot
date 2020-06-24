@@ -196,6 +196,7 @@ function handleMessage(sender_psid, received_message) {
   } else if (received_message.attachments) {
     // Get the URL of the message attachment
     let attachment_url = received_message.attachments[0].payload.url;
+    console.log('the attachment url: ', attachment_url);
     response = {
       "attachment": {
         "type": "template",
@@ -370,7 +371,7 @@ function handlePostback(sender_psid, received_postback) {
     callSendAPI(sender_psid, response);
 
   } else if (payload === 'proof') {
-    response = { "text": "Please submit the image of yours doing today's task. Our team will verify it later." }
+    response = { "text": "Please submit the image of yours doing today's task. This is for you to keep a record of all the awesome tasks you have started doing." }
     callSendAPI(sender_psid, response);
   } else if (payload === 'yes') {
     let t = 0; //fetch t from tasks completed by the user_id (call from mongodb)
