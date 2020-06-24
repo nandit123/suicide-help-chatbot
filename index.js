@@ -569,6 +569,27 @@ function handlePostback(sender_psid, received_postback) {
         callSendAPI(sender_psid, response);
       }
     });
+  } else if (payload === 'new_tasks_one_time_notif') {
+    response = {
+      "text": "Ok, we will notify you as soon as a new task arrives. Stay Happy and Stay Safe. You can reset progress to do the tasks again.",
+      "quick_replies": [
+        {
+          "content_type": "text",
+          "title": "Reset Progress",
+          "payload": "reset_progress",
+        },
+        {
+          "content_type": "text",
+          "title": "Not Now",
+          "payload": "tasks_later",
+        },
+        {
+          "content_type": "text",
+          "title": "View all tasks",
+          "payload": "view_all",
+        }
+      ]
+    }
   }
 }
 
