@@ -372,6 +372,17 @@ function handlePostback(sender_psid, received_postback) {
                 "text": "Hey, you have completed all tasks available. Check back later for new tasks"
               }
               callSendAPI(sender_psid, response);
+              response = {
+                "attachment": {
+                  "type":"template",
+                  "payload": {
+                    "template_type":"one_time_notif_req",
+                    "title":"Get Notified: When new tasks are available for you to complete!",
+                    "payload":"new_tasks_one_time_notif"
+                  }
+                }
+              }
+              callSendAPI(sender_psid, response);
             }
           })
           .catch(err => console.error(`Failed to find documents: ${err}`))
