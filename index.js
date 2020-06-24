@@ -327,32 +327,16 @@ function handlePostback(sender_psid, received_postback) {
     callSendAPI(sender_psid, response);
   } else if (payload === 'consultProfessional') {
     response = {
-		  "object": "page",
-		  "entry": [
-			{
-			  "id": "<PAGE_ID>",
-			  "time": 1502905976963,
-			  "messaging": [
-				{
-				  "sender": {
-					"id": "1254459154682919"
-				  },
-				  "recipient": {
-					"id": "682498171943165"
-				  },
-				  "timestamp": 1502905976377,
-				  "message": {
-					"quick_reply": {
-					  "payload": "<PHONE_NUMBER>"
-					},
-					"mid": "m_AG5Hz2Uq7tuwNEhXfYYKj8mJEM_QPpz5jdCK48PnKAjSdjfipqxqMvK8ma6AC8fplwlqLP_5cgXIbu7I3rBN0P",
-					"text": "1234"
-				  }
-				}
-			  ]
-			}
-		  ]
-		}
+                "text": "Help line number",
+                "quick_replies": [
+                  {
+                    "content_type": "user_phone_number",
+                    "title": "1234",
+                    "payload": "phoneCall",
+                  }
+                ]
+              }
+	console.log(response)
     // Send the message to acknowledge the postback
     callSendAPI(sender_psid, response);
   } else if (payload === 'tasks_start') {
