@@ -310,13 +310,13 @@ function handlePostback(sender_psid, received_postback) {
             "buttons": [
               {
                 "type": "postback",
-                "title": "Consult a trained professional",
+                "title": "Consult a professional",
                 "payload": "consultProfessional",
               },
               {
                 "type": "postback",
                 "title": "Tasks to cheer up",
-                "payload": "tasks_start",
+                "payload": "view_all",
               }
             ],
           }]
