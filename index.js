@@ -367,7 +367,24 @@ function handlePostback(sender_psid, received_postback) {
               callSendAPI(sender_psid, response);
             } else {
               response = {
-                "text": "Hey, you have completed all tasks available. Check back later for new tasks"
+                "text": "Hey, you have completed all tasks available. Check back later for new tasks",
+                "quick_replies": [
+                  {
+                    "content_type": "text",
+                    "title": "Reset Progress",
+                    "payload": "reset_progress",
+                  },
+                  {
+                    "content_type": "text",
+                    "title": "Not Now",
+                    "payload": "tasks_later",
+                  },
+                  {
+                    "content_type": "text",
+                    "title": "View all tasks",
+                    "payload": "view_all",
+                  }
+                ]
               }
               callSendAPI(sender_psid, response);
               response = {
