@@ -511,6 +511,31 @@ function handlePostback(sender_psid, received_postback) {
       } else {
         let collection = client.db("db1").collection("user_data");
         collection.update({ user_id: sender_psid }, { $set: { tasks: 0 } });
+        response = {
+          "text": "All your progress has been reset, you can start again with the first task. ",
+          "quick_replies": [
+            {
+              "content_type": "text",
+              "title": "Let's Start",
+              "payload": "tasks_start",
+            },
+            {
+              "content_type": "text",
+              "title": "Not Now",
+              "payload": "tasks_later",
+            },
+            {
+              "content_type": "text",
+              "title": "View all tasks",
+              "payload": "view_all",
+            },
+            {
+              "content_type": "text",
+              "title": "Reset Progress",
+              "payload": "reset_progress",
+            }
+          ]
+        }
       }
     });
   }
