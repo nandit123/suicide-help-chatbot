@@ -321,7 +321,7 @@ function handlePostback(sender_psid, received_postback) {
     // Send the message to acknowledge the postback
     callSendAPI(sender_psid, response);
   } else if (payload === 'consultProfessional') {
-    response = {"text": "This is the good step in the right direction to contact a professional. HelpLine No. - 09152987821 \n Website Link - www.icallhelpline.org"}
+    response = {"text": "This is the good step in the right direction to contact a professional.\n HelpLine No. - 09152987821 \n Website - www.icallhelpline.org"}
 	console.log(response)
     // Send the message to acknowledge the postback
     callSendAPI(sender_psid, response);
