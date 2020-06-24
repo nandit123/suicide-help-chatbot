@@ -274,17 +274,12 @@ function handlePostback(sender_psid, received_postback) {
             "buttons": [
               {
                 "type": "postback",
-                "title": "Today!",
+                "title": "Recently",
                 "payload": "today",
               },
               {
                 "type": "postback",
-                "title": "15 Days!",
-                "payload": "15days",
-              },
-              {
-                "type": "postback",
-                "title": "1 Month!",
+                "title": "A long time",
                 "payload": "1month",
               }
             ],
@@ -294,7 +289,7 @@ function handlePostback(sender_psid, received_postback) {
     }
     // Send the message to acknowledge the postback
     callSendAPI(sender_psid, response);
-  } else if (payload === 'today' || payload === '15days') {
+  } else if (payload === 'today') {
     response = { "text": "Would you like to share with us the reason behind your sadness?" }
     // Send the message to acknowledge the postback
     callSendAPI(sender_psid, response);
@@ -326,7 +321,7 @@ function handlePostback(sender_psid, received_postback) {
     // Send the message to acknowledge the postback
     callSendAPI(sender_psid, response);
   } else if (payload === 'consultProfessional') {
-    response = {"text": "This is the good step in the right direction to contact a professional. HelpLine No. - 09152987821"}
+    response = {"text": "This is the good step in the right direction to contact a professional. HelpLine No. - 09152987821 \n Website Link - www.icallhelpline.org"}
 	console.log(response)
     // Send the message to acknowledge the postback
     callSendAPI(sender_psid, response);
